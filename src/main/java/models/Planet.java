@@ -6,11 +6,13 @@ import states.entity_states.EntityState;
 import java.util.List;
 
 public class Planet extends Entity {
-    Planet(double x, double y, double velocityX, double velocityY, int radius, Color color) {
+    public Planet(String name,  List<Planet> neighbours,  double x, double y, double velocityX, double velocityY, int radius, Color color) {
         super(x, y, velocityX, velocityY, radius, color);
+        this.name = name;
+        this.neighbours = neighbours;
     }
 
-    private String name;
+    public final String name;
 
-    private List<Planet> neighbours;
+    public final List<Planet> neighbours;
 }

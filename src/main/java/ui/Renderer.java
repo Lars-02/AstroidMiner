@@ -1,38 +1,27 @@
 package ui;
 
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.Entity;
 import models.Galaxy;
 
 public class Renderer {
-    final Canvas canvas;
-    GraphicsContext gc;
 
-    public Renderer(Stage stage) {
-        canvas = new Canvas(800,600);
-        gc = canvas.getGraphicsContext2D();
+    final Galaxy galaxy;
+    final Pane pane;
 
-        var scene = new Scene(new StackPane(canvas), 800, 600, Color.WHITE);
+    public Renderer(Stage stage, Galaxy galaxy) {
+        this.galaxy = galaxy;
+        pane = new Pane();
+        pane.getChildren().addAll(galaxy.entities.stream().map(Entity::getShape).toList());
+        pane.setPrefSize(800, 600);
+
+        var scene = new Scene(pane, Color.WHITE);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.setTitle("FlatGalaxySociety");
+        stage.setTitle("Flat Galaxy Society");
         stage.show();
-    }
-
-    public void render(Galaxy galaxy) {
-        if (galaxy.entities == null)
-            return;
-        for (Entity entity: galaxy.entities) {
-            drawEntity(entity);
-        }
-    }
-
-    private void drawEntity(Entity entity) {
-        gc.fillOval(entity.x, entity.y, entity.getRadius(), entity.getRadius());
     }
 }
