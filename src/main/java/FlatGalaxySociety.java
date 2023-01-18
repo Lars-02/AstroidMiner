@@ -1,3 +1,5 @@
+import exceptions.filereader.FileReaderException;
+import factories.GalaxyFactory;
 import javafx.application.Application;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -14,6 +16,12 @@ public class FlatGalaxySociety extends Application {
 
     @Override
     public void start(Stage stage) {
+
+        try {
+            var data = GalaxyFactory.fromFile("./src/main/resources/planetsExtended.csv");
+        } catch (FileReaderException e) {
+            e.printStackTrace();
+        }
 
         var galaxy = new Galaxy();
 

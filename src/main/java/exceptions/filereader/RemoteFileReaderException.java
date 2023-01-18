@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.filereader;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
