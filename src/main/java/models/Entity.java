@@ -22,12 +22,13 @@ public abstract class Entity {
 
     public double x;
     public double y;
-    private final int radius;
+    public Color color;
 
+    private final int radius;
     private final Galaxy galaxy;
     private double velocityX;
     private double velocityY;
-    public final Color color;
+    private boolean colliding = false;
     private EntityState state;
 
     public void tick(long delta, List<Entity> entities) {
@@ -45,11 +46,22 @@ public abstract class Entity {
             y = collidedWithTop() ? getRadius() : Renderer.ScreenHeight - getRadius();
         }
 
+        checkForEntityCollisions(entities);
+    }
+
+    private void checkForEntityCollisions(List<Entity> entities) {
         for (Entity entity : entities) {
             if (collidedWithCircle(entity.x, entity.y, entity.getRadius())) {
-                collidedWithCircle(entity.x, entity.y, entity.getRadius());
-                onCollision();
+                if (colliding) return;
+
+                colliding = true;
+                state.onCollisionEntry();
+                return;
             }
+        }
+        if (colliding) {
+            colliding = false;
+            state.onCollisionExit();
         }
     }
 
@@ -72,10 +84,6 @@ public abstract class Entity {
 
     private boolean collidedWithBottom() {
         return y + getRadius() > Renderer.ScreenHeight;
-    }
-
-    public void onCollision() {
-        state.onCollision();
     }
 
     public int getRadius() {

@@ -9,6 +9,6 @@ public abstract class EntityState {
         this.entity = entity;
     }
 
-    public abstract void onCollision();
-
+    public abstract void onCollisionEntry();
+    public abstract void onCollisionExit();
 }

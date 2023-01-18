@@ -8,7 +8,12 @@ public class GrowState extends EntityState {
     }
 
     @Override
-    public void onCollision() {
+    public void onCollisionEntry() {
+
+    }
+
+    @Override
+    public void onCollisionExit() {
 
     }
 }
