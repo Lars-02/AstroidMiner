@@ -1,9 +1,15 @@
 package parsers;
 
+import exceptions.galaxyparser.InvalidEntityTypeException;
+import javafx.scene.paint.Color;
+import models.Asteroid;
+import models.Galaxy;
+import models.Planet;
+
 import java.util.*;
 
-public class CsvParser {
-    public static List<Map<String, String>> parse(String fileContents) {
+public class CsvParser implements GalaxyParser {
+    private List<Map<String, String>> toMapList(String fileContents) {
         var data = new ArrayList<Map<String, String>>();
 
         var lines = fileContents.split("\n");
@@ -24,5 +30,44 @@ public class CsvParser {
         }
 
         return data;
+    }
+
+
+    @Override
+    public Galaxy parse(String fileContents) throws InvalidEntityTypeException {
+        var data = toMapList(fileContents);
+
+        var galaxy = new Galaxy();
+
+        for (var entityMap : data) {
+            var type = entityMap.get("type");
+
+            var entity = switch (type) {
+                case "Planet" -> new Planet(
+                        galaxy,
+                        entityMap.get("name"),
+                        Double.parseDouble(entityMap.get("x")),
+                        Double.parseDouble(entityMap.get("y")),
+                        Double.parseDouble(entityMap.get("vy")),
+                        Double.parseDouble(entityMap.get("vy")),
+                        Integer.parseInt(entityMap.get("radius")),
+                        Color.valueOf(entityMap.get("color"))
+                );
+                case "Asteroid" -> new Asteroid(
+                        galaxy,
+                        Double.parseDouble(entityMap.get("x")),
+                        Double.parseDouble(entityMap.get("y")),
+                        Double.parseDouble(entityMap.get("vy")),
+                        Double.parseDouble(entityMap.get("vy")),
+                        Integer.parseInt(entityMap.get("radius")),
+                        Color.valueOf(entityMap.get("color"))
+                );
+                default -> throw new InvalidEntityTypeException(type);
+            };
+
+            galaxy.addEntity(entity);
+        }
+
+        return galaxy;
     }
 }

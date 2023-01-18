@@ -9,7 +9,7 @@ public class GrowState extends EntityState {
 
     @Override
     public void onCollisionEntry() {
-        var radius = entity.getRadius() / Entity.RadiusScale;
+        var radius = entity.getRadius();
         if (radius >= 20) {
             entity.setState(new ExplodeState(entity));
             return;

@@ -9,11 +9,11 @@ public class Galaxy {
     private final List<Entity> removeEntityList = new ArrayList<>();
     private final List<Entity> addEntityList = new ArrayList<>();
 
-    public void addToGalaxy(Entity entity) {
+    public void addEntity(Entity entity) {
         addEntityList.add(entity);
     }
 
-    public void removeFromGalaxy(Entity entity) {
+    public void removeEntity(Entity entity) {
         removeEntityList.add(entity);
     }
 

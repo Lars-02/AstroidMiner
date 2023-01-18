@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Entity {
-    public static final int RadiusScale = 5;
-
     Entity(Galaxy galaxy, double x, double y, double velocityX, double velocityY, int radius, Color color) {
         this.galaxy = galaxy;
         this.x = x;
@@ -18,7 +16,7 @@ public abstract class Entity {
         this.velocityY = velocityY;
         this.radius = radius;
         this.color = color;
-        this.galaxy.addToGalaxy(this);
+        this.galaxy.addEntity(this);
     }
 
     public double x;
@@ -82,7 +80,7 @@ public abstract class Entity {
     }
 
     public int getRadius() {
-        return radius * RadiusScale;
+        return radius;
     }
 
     public double getVelocityX() {
@@ -98,7 +96,7 @@ public abstract class Entity {
     }
 
     public void removeFromGalaxy() {
-        galaxy.removeFromGalaxy(this);
+        galaxy.removeEntity(this);
     }
 
     public void setRadius(int radius) {

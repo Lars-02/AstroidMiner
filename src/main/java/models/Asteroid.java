@@ -1,7 +1,6 @@
 package models;
 
 import javafx.scene.paint.Color;
-import states.entity_states.EntityState;
 
 public class Asteroid extends Entity {
 
