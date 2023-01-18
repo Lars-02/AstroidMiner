@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 import states.entity_states.EntityState;
 import ui.Renderer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Entity {
@@ -26,9 +27,9 @@ public abstract class Entity {
 
     private final int radius;
     private final Galaxy galaxy;
-    private double velocityX;
-    private double velocityY;
-    private boolean colliding = false;
+    public double velocityX;
+    public double velocityY;
+    private final List<Entity> colliders = new ArrayList<>();
     private EntityState state;
 
     public void tick(long delta, List<Entity> entities) {
@@ -49,19 +50,26 @@ public abstract class Entity {
         checkForEntityCollisions(entities);
     }
 
+    public boolean isColliding() {
+        return !colliders.isEmpty();
+    }
+
     private void checkForEntityCollisions(List<Entity> entities) {
         for (Entity entity : entities) {
-            if (collidedWithCircle(entity.x, entity.y, entity.getRadius())) {
-                if (colliding) return;
+            if (!collidedWithCircle(entity.x, entity.y, entity.getRadius()))
+                continue;
+            if (colliders.stream().anyMatch(collider -> entity == collider)) continue;
 
-                colliding = true;
-                state.onCollisionEntry();
-                return;
-            }
+            colliders.add(entity);
+            state.onCollisionEntry();
         }
-        if (colliding) {
-            colliding = false;
+        for (Entity collider : colliders) {
+            if (collidedWithCircle(collider.x, collider.y, collider.getRadius()))
+                continue;
+
+            colliders.remove(collider);
             state.onCollisionExit();
+            return;
         }
     }
 

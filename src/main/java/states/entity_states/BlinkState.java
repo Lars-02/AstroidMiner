@@ -13,10 +13,12 @@ public class BlinkState extends EntityState {
 
     @Override
     public void onCollisionEntry() {
-        entity.color = entity.color.interpolate(Color.WHITE, 0.3);
+        entity.color = initialColor.interpolate(Color.WHITE, 0.3);
     }
 
     public void onCollisionExit() {
-        entity.color = initialColor;
+        if (!entity.isColliding()
+        )
+            entity.color = initialColor;
     }
 }
