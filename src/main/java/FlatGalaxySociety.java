@@ -9,7 +9,7 @@ import ui.Renderer;
 import java.util.Collections;
 
 public class FlatGalaxySociety extends Application {
-    public static final int TickPerMilliSeconds = 100;
+    public static final int MilliSecondsPerTick = 100;
 
     @Override
     public void start(Stage stage) {
@@ -37,11 +37,11 @@ public class FlatGalaxySociety extends Application {
                 if (waitUntil > System.currentTimeMillis())
                     continue;
 
-                final long delta = System.currentTimeMillis() + TickPerMilliSeconds - waitUntil;
+                final long delta = System.currentTimeMillis() + MilliSecondsPerTick - waitUntil;
                 galaxy.tick(delta);
                 renderer.render();
 
-                waitUntil = System.currentTimeMillis() + TickPerMilliSeconds;
+                waitUntil = System.currentTimeMillis() + MilliSecondsPerTick;
             }
         }).start();
     }
