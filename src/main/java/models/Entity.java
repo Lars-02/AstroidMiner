@@ -1,13 +1,12 @@
 package models;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import states.entity_states.EntityState;
 
 import java.util.List;
 
 public class Entity {
-    private static final int RadiusScale = 5;
+    private static final int RadiusScale = 10;
 
     Entity(double x, double y, double velocityX, double velocityY, int radius, Color color) {
         this.x = x;
@@ -15,34 +14,31 @@ public class Entity {
         this.velocityX = velocityX;
         this.velocityY = velocityY;
         this.radius = radius;
-        this.shape = new Circle(getRadius(), color);
-        this.shape.relocate(x, y);
+        this.color = color;
     }
 
     public double x;
     public double y;
+    private final int radius;
 
     private final double velocityX;
     private final double velocityY;
-    private final int radius;
+    public final Color color;
     private EntityState state;
-    private final Circle shape;
 
     public void tick(long delta, List<Entity> entities) {
         x += velocityX * ((double) delta / 1000);
         y += velocityY * ((double) delta / 1000);
-        shape.setTranslateX(x);
-        shape.setTranslateY(y);
 
         for (Entity entity : entities) {
-            if (insideCircle(entity.x, entity.y, entity.getRadius()))
+            if (collidedWithCircle(entity.x, entity.y, getRadius()))
                 onCollision();
         }
     }
 
-    private boolean insideCircle(double circleX, double circleY, double radius) {
-        double diameter = Math.sqrt((x - circleX) * (x - circleX) + (y - circleY) * (y - circleY));
-        return diameter <= radius - getRadius();
+    private boolean collidedWithCircle(double circleX, double circleY, double radius) {
+        double distance = Math.sqrt(Math.pow(x - circleX, 2) + Math.pow(y - circleY, 2));
+        return distance <= (getRadius() + radius);
     }
 
     public void onCollision() {
@@ -51,10 +47,6 @@ public class Entity {
 
     public int getRadius() {
         return radius * RadiusScale;
-    }
-
-    public Circle getShape() {
-        return shape;
     }
 
     public double getVelocityX() {

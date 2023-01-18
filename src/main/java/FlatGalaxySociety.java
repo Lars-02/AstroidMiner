@@ -17,28 +17,17 @@ public class FlatGalaxySociety extends Application {
 
         var galaxy = new Galaxy();
 
-        var pluto = new Planet("Pluto", Collections.emptyList(), 50, 50, 20, 20, 2, Color.GREEN);
+        var pluto = new Planet("Pluto", Collections.emptyList(), 50, 50, 50, 0, 2, Color.GREEN);
         pluto.setState(new BlinkState(pluto));
         galaxy.entities.add(pluto);
 
-        var mars = new Planet("Mars", Collections.emptyList(), 200, 200, 0, 0, 8, Color.BLUE);
+        var mars = new Planet("Mars", Collections.emptyList(), 200, 50, 0, 0, 8, Color.BLUE);
         mars.setState(new BlinkState(mars));
         galaxy.entities.add(mars);
 
-        for (int i = 0; i < 100; i++) {
-            var asteroid = new Asteroid((i + 1) * 10, 0, 0, 0, 1, Color.BLACK);
-            asteroid.setState(new BlinkState(asteroid));
-            galaxy.entities.add(asteroid);
-        }
+        var renderer = new Renderer(stage, galaxy);
 
-        for (int i = 0; i < 100; i++) {
-            var asteroid = new Asteroid(0, (i + 1) * 10, 0, 0, 1, Color.RED);
-            asteroid.setState(new BlinkState(asteroid));
-            galaxy.entities.add(asteroid);
-        }
-
-        new Renderer(stage, galaxy);
-
+        renderer.render();
         new Thread(() -> {
             long waitUntil = System.currentTimeMillis() - 1;
             while (true) {
@@ -47,6 +36,7 @@ public class FlatGalaxySociety extends Application {
 
                 final long delta = System.currentTimeMillis() + TickPerMilliSeconds - waitUntil;
                 galaxy.tick(delta);
+                renderer.render();
 
                 waitUntil = System.currentTimeMillis() + TickPerMilliSeconds;
             }
