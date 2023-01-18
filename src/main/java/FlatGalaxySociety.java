@@ -16,15 +16,15 @@ public class FlatGalaxySociety extends Application {
 
         var galaxy = new Galaxy();
 
-        var earth = new Planet("Earth", Collections.emptyList(), 0, 0, 0, 0, 4, Color.BLUE);
+        var earth = new Planet("Earth", Collections.emptyList(), 600, 100, 0, 0, 4, Color.BLUE);
         earth.setState(new BlinkState(earth));
         galaxy.entities.add(earth);
 
-        var pluto = new Planet("Pluto", Collections.emptyList(), 50, 50, 50, 0, 2, Color.GREEN);
+        var pluto = new Planet("Pluto", Collections.emptyList(), 50, 50, 50, 50, 2, Color.GREEN);
         pluto.setState(new BlinkState(pluto));
         galaxy.entities.add(pluto);
 
-        var mars = new Planet("Mars", Collections.emptyList(), 200, 50, 0, 0, 8, Color.RED);
+        var mars = new Planet("Mars", Collections.emptyList(), 300, 300, 0, 0, 8, Color.RED);
         mars.setState(new BlinkState(mars));
         galaxy.entities.add(mars);
 
