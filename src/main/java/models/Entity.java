@@ -109,4 +109,8 @@ public abstract class Entity {
     public void setState(EntityState state) {
         this.state = state;
     }
+
+    public void removeFromGalaxy() {
+        galaxy.removeFromGalaxy(this);
+    }
 }

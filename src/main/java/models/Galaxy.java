@@ -6,13 +6,14 @@ import java.util.List;
 public class Galaxy {
 
     private final List<Entity> entities = new ArrayList<>();
+    private final List<Entity> removeList = new ArrayList<>();
 
     public void addToGalaxy(Entity entity) {
         entities.add(entity);
     }
 
     public void removeFromGalaxy(Entity entity) {
-        entities.remove(entity);
+        removeList.add(entity);
     }
 
     public List<Entity> getEntities() {
@@ -20,6 +21,9 @@ public class Galaxy {
     }
 
     public void tick(long delta) {
+        for (Entity entity : removeList) {
+            entities.remove(entity);
+        }
         for (Entity entity : entities) {
             entity.tick(delta, entities.stream().filter(entityFromList -> entityFromList != entity).toList());
         }

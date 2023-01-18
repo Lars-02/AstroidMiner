@@ -6,6 +6,7 @@ import models.Galaxy;
 import models.Planet;
 import states.entity_states.BlinkState;
 import states.entity_states.BounceState;
+import states.entity_states.DisappearState;
 import ui.Renderer;
 
 import java.util.Random;
@@ -32,7 +33,7 @@ public class FlatGalaxySociety extends Application {
         for (int i = 0; i <= 40; i++) {
             var radius = random.nextInt(3) + 1;
             var asteroid = new Asteroid(galaxy, random.nextInt(Renderer.ScreenWidth - 2 * radius) + radius, random.nextInt(Renderer.ScreenHeight - 2 * radius) + radius, random.nextInt(40) - 20, random.nextInt(40) - 20, radius, Color.BLACK);
-            asteroid.setState(new BlinkState(asteroid));
+            asteroid.setState(new DisappearState(asteroid));
         }
 
         var renderer = new Renderer(stage, galaxy);
