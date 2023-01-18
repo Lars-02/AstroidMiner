@@ -32,7 +32,7 @@ public abstract class Entity {
     private final List<Entity> colliders = new ArrayList<>();
     private EntityState state;
 
-    public void tick(long delta, List<Entity> entities) {
+    public void translate(long delta, List<Entity> entities) {
         x += velocityX * ((double) delta / 1000);
         y += velocityY * ((double) delta / 1000);
 
@@ -40,7 +40,6 @@ public abstract class Entity {
             velocityX *= -1;
             x = collidedWithLeft() ? getRadius() : Renderer.ScreenWidth - getRadius();
         }
-
 
         if (collidedWithTop() || collidedWithBottom()) {
             velocityY *= -1;
@@ -54,9 +53,9 @@ public abstract class Entity {
         return !colliders.isEmpty();
     }
 
-    private void checkForEntityCollisions(List<Entity> entities) {
+    public void checkForEntityCollisions(List<Entity> entities) {
         for (Entity entity : entities) {
-            if (!collidedWithCircle(entity.x, entity.y, entity.getRadius()))
+            if (!collidedWithCircle(entity))
                 continue;
             if (colliders.stream().anyMatch(collider -> entity == collider)) continue;
 
@@ -64,7 +63,7 @@ public abstract class Entity {
             state.onCollisionEntry();
         }
         for (Entity collider : colliders) {
-            if (collidedWithCircle(collider.x, collider.y, collider.getRadius()))
+            if (collidedWithCircle(collider))
                 continue;
 
             colliders.remove(collider);
@@ -73,9 +72,13 @@ public abstract class Entity {
         }
     }
 
-    private boolean collidedWithCircle(double circleX, double circleY, double radius) {
-        double distance = Math.sqrt(Math.pow(x - circleX, 2) + Math.pow(y - circleY, 2));
-        return distance <= (getRadius() + radius);
+    public double distanceToEntity(Entity entity) {
+        return Math.sqrt(Math.pow(x - entity.x, 2) + Math.pow(y - entity.y, 2));
+
+    }
+
+    private boolean collidedWithCircle(Entity entity) {
+        return distanceToEntity(entity) <= (getRadius() + entity.getRadius());
     }
 
     private boolean collidedWithLeft() {

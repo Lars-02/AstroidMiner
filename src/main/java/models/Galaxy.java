@@ -25,7 +25,10 @@ public class Galaxy {
             entities.remove(entity);
         }
         for (Entity entity : entities) {
-            entity.tick(delta, entities.stream().filter(entityFromList -> entityFromList != entity).toList());
+            entity.translate(delta, entities.stream().filter(entityFromList -> entityFromList != entity).toList());
+        }
+        for (Entity entity : entities) {
+            entity.checkForEntityCollisions(entities.stream().filter(entityFromList -> entityFromList != entity).toList());
         }
     }
 }
