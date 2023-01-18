@@ -1,7 +1,6 @@
 import javafx.application.Application;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import models.Asteroid;
 import models.Galaxy;
 import models.Planet;
 import states.entity_states.BlinkState;
@@ -17,11 +16,15 @@ public class FlatGalaxySociety extends Application {
 
         var galaxy = new Galaxy();
 
+        var earth = new Planet("Earth", Collections.emptyList(), 0, 0, 0, 0, 4, Color.BLUE);
+        earth.setState(new BlinkState(earth));
+        galaxy.entities.add(earth);
+
         var pluto = new Planet("Pluto", Collections.emptyList(), 50, 50, 50, 0, 2, Color.GREEN);
         pluto.setState(new BlinkState(pluto));
         galaxy.entities.add(pluto);
 
-        var mars = new Planet("Mars", Collections.emptyList(), 200, 50, 0, 0, 8, Color.BLUE);
+        var mars = new Planet("Mars", Collections.emptyList(), 200, 50, 0, 0, 8, Color.RED);
         mars.setState(new BlinkState(mars));
         galaxy.entities.add(mars);
 

@@ -30,7 +30,7 @@ public class Renderer {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Entity entity : galaxy.entities) {
             gc.setFill(entity.color);
-            gc.fillOval(entity.x, entity.y, entity.getRadius(), entity.getRadius());
+            gc.fillOval(entity.x - entity.getRadius(), entity.y - entity.getRadius(), entity.getRadius() * 2, entity.getRadius() * 2);
         }
     }
 }

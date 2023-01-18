@@ -6,7 +6,7 @@ import states.entity_states.EntityState;
 import java.util.List;
 
 public class Entity {
-    private static final int RadiusScale = 10;
+    private static final int RadiusScale = 5;
 
     Entity(double x, double y, double velocityX, double velocityY, int radius, Color color) {
         this.x = x;
@@ -31,8 +31,10 @@ public class Entity {
         y += velocityY * ((double) delta / 1000);
 
         for (Entity entity : entities) {
-            if (collidedWithCircle(entity.x, entity.y, getRadius()))
+            if (collidedWithCircle(entity.x, entity.y, entity.getRadius())) {
+                collidedWithCircle(entity.x, entity.y, entity.getRadius());
                 onCollision();
+            }
         }
     }
 
