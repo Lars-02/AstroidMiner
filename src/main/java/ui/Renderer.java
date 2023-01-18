@@ -36,7 +36,7 @@ public class Renderer {
 
     public void render() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (Entity entity : galaxy.entities) {
+        for (Entity entity : galaxy.getEntities()) {
             if (entity instanceof Planet) {
                 List<Planet> connections = new ArrayList<>();
                 for (Planet neighbour : ((Planet) entity).getNeighbours()) {
@@ -48,7 +48,7 @@ public class Renderer {
             }
         }
 
-        for (Entity entity : galaxy.entities) {
+        for (Entity entity : galaxy.getEntities()) {
             gc.setFill(entity.color);
             gc.fillOval(entity.x - entity.getRadius(), entity.y - entity.getRadius(), entity.getRadius() * 2, entity.getRadius() * 2);
         }

@@ -6,22 +6,25 @@ import ui.Renderer;
 
 import java.util.List;
 
-public class Entity {
+public abstract class Entity {
     private static final int RadiusScale = 5;
 
-    Entity(double x, double y, double velocityX, double velocityY, int radius, Color color) {
+    Entity(Galaxy galaxy, double x, double y, double velocityX, double velocityY, int radius, Color color) {
+        this.galaxy = galaxy;
         this.x = x;
         this.y = y;
         this.velocityX = velocityX;
         this.velocityY = velocityY;
         this.radius = radius;
         this.color = color;
+        this.galaxy.addToGalaxy(this);
     }
 
     public double x;
     public double y;
     private final int radius;
 
+    private final Galaxy galaxy;
     private double velocityX;
     private double velocityY;
     public final Color color;
