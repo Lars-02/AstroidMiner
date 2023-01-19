@@ -85,4 +85,8 @@ public abstract class Entity implements Serializable {
     private boolean collidedWithBottom() {
         return position.y + getRadius() > Renderer.ScreenHeight;
     }
+
+    public boolean collidedWithEntity(Entity otherEntity) {
+        return position.dist(otherEntity.position) <= (getRadius() + otherEntity.getRadius());
+    }
 }

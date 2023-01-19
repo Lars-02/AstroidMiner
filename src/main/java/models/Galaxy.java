@@ -5,6 +5,8 @@ import javafx.scene.input.KeyCode;
 import memento.History;
 import memento.Memento;
 import memento.Restorable;
+import states.collosionchecks.CollisionChecker;
+import states.collosionchecks.NaiveCollisionChecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +15,8 @@ import java.util.Map;
 
 public class Galaxy implements Restorable<GalaxyState> {
     private final History<Galaxy, GalaxyState> history = new History<>();
-    private HashMap<Entity, ArrayList<Entity>> collisions = new HashMap<>();
+    public HashMap<Entity, ArrayList<Entity>> collisions = new HashMap<>();
+    CollisionChecker collisionChecker = new NaiveCollisionChecker(this);
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> removeEntityList = new ArrayList<>();
     private List<Entity> addEntityList = new ArrayList<>();
@@ -43,49 +46,24 @@ public class Galaxy implements Restorable<GalaxyState> {
     }
 
     public void tick(long delta) {
-        for (var entity1 : entities) {
-            for (var entity2 : entities) {
-                if (entity2 == entity1)
-                    continue;
-
-                if (!collidedWithCircle(entity1, entity2))
-                    continue;
-
-                if (collisions.get(entity1).contains(entity2))
-                    continue;
-
-                collisions.get(entity1).add(entity2);
-                entity1.onCollision(this, entity2);
-            }
-        }
-
+        // Translate entities
         for (var entity : entities) {
             entity.translate(delta);
         }
 
-        collisions.forEach((entity1, collidingEntities) -> {
-            for (var entity2 : collidingEntities) {
-                if (collidedWithCircle(entity1, entity2))
-                    continue;
+        collisionChecker.checkCollisions();
 
-                entity1.onExitCollision(this, entity2);
-                collisions.get(entity1).remove(entity2);
-                return;
-            }
-        });
-
+        // Add all new entities
         entities.addAll(addEntityList);
         addEntityList.clear();
+
+        // Remove all entities
         for (Entity entity : removeEntityList) {
             if (entity instanceof Planet planet)
                 planet.removeConnections();
         }
         entities.removeAll(removeEntityList);
         removeEntityList.clear();
-    }
-
-    private boolean collidedWithCircle(Entity entity1, Entity entity2) {
-        return entity1.position.dist(entity2.position) <= (entity1.getRadius() + entity2.getRadius());
     }
 
     public void undo() {
