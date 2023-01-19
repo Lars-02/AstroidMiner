@@ -11,9 +11,9 @@ public class GalaxyFactory {
         var fileReader = FileReader.getFileReader(fileLocation);
         var fileContent = fileReader.readFile(fileLocation);
 
-        var fileExtension = fileLocation.substring(fileLocation.lastIndexOf('.') + 1);
-        var fileParser = GalaxyParser.getParser(fileExtension);
+        var fileType = FileReader.getFileType(fileLocation);
+        var galaxyParser = GalaxyParser.getParser(fileType);
 
-        return fileParser.parse(fileContent);
+        return galaxyParser.parse(fileContent);
     }
 }
