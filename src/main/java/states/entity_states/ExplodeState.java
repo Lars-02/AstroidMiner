@@ -21,7 +21,7 @@ public class ExplodeState extends EntityState {
                     entity.position.y,
                     random.nextInt(20) - 10,
                     random.nextInt(20) - 10,
-                    random.nextInt(3) + 1,
+                    random.nextInt(5) + 1,
                     Color.BLACK
             );
 

@@ -11,6 +11,7 @@ public class SlowDownCommand extends Command {
 
     @Override
     public void execute() {
+        if (deltaMultiplier > 1)
         deltaMultiplier -= 1;
     }
 }

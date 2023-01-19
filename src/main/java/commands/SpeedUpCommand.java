@@ -11,6 +11,7 @@ public class SpeedUpCommand extends Command {
 
     @Override
     public void execute() {
-        deltaMultiplier += 1;
+        if (deltaMultiplier < 1000)
+            deltaMultiplier += 1;
     }
 }
