@@ -25,13 +25,18 @@ public class Renderer {
 
     private final Galaxy galaxy;
     private final Stage stage;
+    private final Canvas canvas;
     private Text keyClicked;
 
     public Renderer(Stage stage, Galaxy galaxy) {
         this.galaxy = galaxy;
         this.stage = stage;
+        this.canvas = new Canvas(ScreenWidth, ScreenHeight);
+
         stage.setResizable(false);
         stage.setTitle("Flat Galaxy Society");
+
+        initializeGalaxy();
     }
 
     public void initializeMenu(Scene galaxyScene) {
@@ -104,8 +109,6 @@ public class Renderer {
     }
 
     public Canvas initializeGalaxy() {
-        var canvas = new Canvas(ScreenWidth, ScreenHeight);
-
         var scene = new Scene(new StackPane(canvas), ScreenWidth, ScreenHeight, Color.WHITE);
 
         scene.setOnKeyPressed(event -> {
@@ -129,7 +132,7 @@ public class Renderer {
         return canvas;
     }
 
-    public void renderGalaxy(Canvas canvas) {
+    public void renderGalaxy() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Entity entity : galaxy.getEntities()) {
