@@ -17,8 +17,7 @@ public class BlinkState extends EntityState {
     }
 
     public void onCollisionExit() {
-        if (!entity.isColliding()
-        )
+        if (!entity.isColliding())
             entity.color = initialColor;
     }
 }

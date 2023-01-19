@@ -77,24 +77,8 @@ public abstract class Entity {
 
     }
 
-    private boolean collidedWithCircle(Entity entity) {
-        return distanceToEntity(entity) <= (getRadius() + entity.getRadius());
-    }
-
-    private boolean collidedWithLeft() {
-        return x - getRadius() < 0;
-    }
-
-    private boolean collidedWithRight() {
-        return x + getRadius() > Renderer.ScreenWidth;
-    }
-
-    private boolean collidedWithTop() {
-        return y - getRadius() < 0;
-    }
-
-    private boolean collidedWithBottom() {
-        return y + getRadius() > Renderer.ScreenHeight;
+    public Galaxy getGalaxy() {
+        return galaxy;
     }
 
     public int getRadius() {
@@ -115,5 +99,25 @@ public abstract class Entity {
 
     public void removeFromGalaxy() {
         galaxy.removeFromGalaxy(this);
+    }
+
+    private boolean collidedWithCircle(Entity entity) {
+        return distanceToEntity(entity) <= (getRadius() + entity.getRadius());
+    }
+
+    private boolean collidedWithLeft() {
+        return x - getRadius() < 0;
+    }
+
+    private boolean collidedWithRight() {
+        return x + getRadius() > Renderer.ScreenWidth;
+    }
+
+    private boolean collidedWithTop() {
+        return y - getRadius() < 0;
+    }
+
+    private boolean collidedWithBottom() {
+        return y + getRadius() > Renderer.ScreenHeight;
     }
 }
