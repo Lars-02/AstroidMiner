@@ -1,13 +1,14 @@
-package models;
+package memento;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class History {
-    private List<Memento> history = new ArrayList<>();
+public class History<T extends Restorable<S>, S extends Serializable> {
+    private List<Memento<T, S>> history = new ArrayList<>();
     private int virtualSize = 0;
 
-    public void push(Memento m) {
+    public void push(Memento<T, S> m) {
         if (virtualSize != history.size() && virtualSize > 0)
             history = history.subList(0, virtualSize - 1);
 
@@ -33,7 +34,7 @@ public class History {
         memento.restore();
     }
 
-    private Memento getUndo() {
+    private Memento<T, S> getUndo() {
         if (virtualSize == 0)
             return null;
 
@@ -41,7 +42,7 @@ public class History {
         return history.get(virtualSize);
     }
 
-    private Memento getRedo() {
+    private Memento<T, S> getRedo() {
         if (virtualSize == history.size())
             return null;
 

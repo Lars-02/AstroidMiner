@@ -2,12 +2,17 @@ package models;
 
 import commands.*;
 import javafx.scene.input.KeyCode;
+import memento.History;
+import memento.Memento;
+import memento.Restorable;
 
-import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class Galaxy {
-    private final History history = new History();
+public class Galaxy implements Restorable<GalaxyState> {
+    private final History<Galaxy, GalaxyState> history = new History<>();
     private HashMap<Entity, ArrayList<Entity>> collisions = new HashMap<>();
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> removeEntityList = new ArrayList<>();
@@ -92,35 +97,17 @@ public class Galaxy {
     }
 
     public void save() {
-        history.push(new Memento(this));
+        history.push(new Memento<>(this));
     }
 
-    public String serialize() {
-        try {
-            var baos = new ByteArrayOutputStream();
-            var out = new ObjectOutputStream(baos);
-            out.writeObject(new GalaxyState(collisions, entities, addEntityList, removeEntityList));
-            out.close();
-            return Base64.getEncoder().encodeToString(baos.toByteArray());
-        } catch (IOException e) {
-            return "";
-        }
+    public GalaxyState serializableState() {
+        return new GalaxyState(collisions, entities, addEntityList, removeEntityList);
     }
 
-    public void restore(String save) {
-        try {
-            byte[] data = Base64.getDecoder().decode(save);
-            var in = new ObjectInputStream(new ByteArrayInputStream(data));
-            var state = (GalaxyState) in.readObject();
-
-            collisions = state.collisions();
-            entities = state.entities();
-            addEntityList = state.addEntityList();
-            removeEntityList = state.removeEntityList();
-
-            in.close();
-        } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
-        }
+    public void restore(GalaxyState state) {
+        collisions = state.collisions();
+        entities = state.entities();
+        addEntityList = state.addEntityList();
+        removeEntityList = state.removeEntityList();
     }
 }
