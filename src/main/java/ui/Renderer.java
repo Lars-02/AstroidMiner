@@ -86,7 +86,12 @@ public class Renderer {
                 key.setFill(Color.DARKBLUE);
                 keyClicked = key;
                 stage.getScene().setOnKeyPressed(keyEvent -> {
-                    if (keyEvent.getCode() == KeyCode.ESCAPE || galaxy.commandKeyMap.containsValue(keyEvent.getCode())) {
+                    if (keyEvent.getCode() == KeyCode.ESCAPE ) {
+                        stage.setScene(galaxyScene);
+                        stage.show();
+                        return;
+                    }
+                    if (galaxy.commandKeyMap.containsValue(keyEvent.getCode())) {
                         key.setFill(Color.RED);
                         return;
                     }
