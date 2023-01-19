@@ -15,7 +15,7 @@ public class ExplodeState extends EntityState {
     public void onCollisionEntry() {
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            var asteroid = new Asteroid(entity.getGalaxy(), entity.x, entity.y, random.nextInt(20) - 10, random.nextInt(20) - 10, 2, Color.YELLOW);
+            var asteroid = new Asteroid(entity.getGalaxy(), entity.x, entity.y, random.nextInt(20) - 10, random.nextInt(20) - 10, random.nextInt(3) + 1, Color.BLACK);
             asteroid.setState(new BounceState(asteroid));
         }
         entity.removeFromGalaxy();

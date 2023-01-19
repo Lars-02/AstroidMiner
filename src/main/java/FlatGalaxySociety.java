@@ -4,10 +4,7 @@ import javafx.stage.Stage;
 import models.Asteroid;
 import models.Galaxy;
 import models.Planet;
-import states.entity_states.BlinkState;
-import states.entity_states.BounceState;
-import states.entity_states.DisappearState;
-import states.entity_states.ExplodeState;
+import states.entity_states.*;
 import ui.Renderer;
 
 import java.util.Random;
@@ -24,7 +21,7 @@ public class FlatGalaxySociety extends Application {
         earth.setState(new BlinkState(earth));
 
         var pluto = new Planet("Pluto", galaxy, 50, 50, 20, 20, 2, Color.GREEN);
-        pluto.setState(new BounceState(pluto));
+        pluto.setState(new GrowState(pluto));
         pluto.addConnectionNeighbour(earth);
 
         var mars = new Planet("Mars", galaxy, 300, 300, 0, 0, 8, Color.RED);

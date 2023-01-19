@@ -29,6 +29,8 @@ public class Galaxy {
             entity.checkForEntityCollisions(entities.stream().filter(entityFromList -> entityFromList != entity).toList());
         }
         entities.addAll(addEntityList);
+        addEntityList.clear();
         entities.removeAll(removeEntityList);
+        removeEntityList.clear();
     }
 }

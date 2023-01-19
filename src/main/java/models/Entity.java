@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Entity {
-    private static final int RadiusScale = 5;
+    public static final int RadiusScale = 5;
 
     Entity(Galaxy galaxy, double x, double y, double velocityX, double velocityY, int radius, Color color) {
         this.galaxy = galaxy;
@@ -25,7 +25,7 @@ public abstract class Entity {
     public double y;
     public Color color;
 
-    private final int radius;
+    private int radius;
     private final Galaxy galaxy;
     public double velocityX;
     public double velocityY;
@@ -99,6 +99,10 @@ public abstract class Entity {
 
     public void removeFromGalaxy() {
         galaxy.removeFromGalaxy(this);
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
     }
 
     private boolean collidedWithCircle(Entity entity) {

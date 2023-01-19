@@ -3,13 +3,18 @@ package states.entity_states;
 import models.Entity;
 
 public class GrowState extends EntityState {
-    GrowState(Entity entity) {
+    public GrowState(Entity entity) {
         super(entity);
     }
 
     @Override
     public void onCollisionEntry() {
-
+        var radius = entity.getRadius() / Entity.RadiusScale;
+        if (radius >= 20) {
+            entity.setState(new ExplodeState(entity));
+            return;
+        }
+        entity.setRadius(radius + 1);
     }
 
     @Override
