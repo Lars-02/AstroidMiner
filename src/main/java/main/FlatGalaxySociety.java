@@ -25,9 +25,7 @@ public class FlatGalaxySociety extends Application {
 
             var renderer = new Renderer(stage, galaxy);
 
-            var canvas = renderer.initializeGalaxy();
-
-            renderer.renderGalaxy(canvas);
+            renderer.renderGalaxy();
             new Thread(() -> {
                 var lastTick = System.currentTimeMillis();
                 while (true) {
@@ -37,7 +35,7 @@ public class FlatGalaxySociety extends Application {
 
                     Platform.runLater(() -> {
                         galaxy.tick(isPaused ? 0 : delta * 10);
-                        renderer.renderGalaxy(canvas);
+                        renderer.renderGalaxy();
                     });
 
                     try {
