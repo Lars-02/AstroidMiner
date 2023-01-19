@@ -28,4 +28,10 @@ public class Planet extends Entity {
         this.neighbours.add(neighbour);
         neighbour.addNeighbour(this);
     }
+
+    public void removeConnections() {
+        for (Planet neighbour : neighbours) {
+            neighbour.getNeighbours().remove(this);
+        }
+    }
 }

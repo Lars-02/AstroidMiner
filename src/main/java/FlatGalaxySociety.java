@@ -21,7 +21,7 @@ public class FlatGalaxySociety extends Application {
         earth.setState(new BlinkState(earth));
 
         var pluto = new Planet("Pluto", galaxy, 50, 50, 20, 20, 2, Color.GREEN);
-        pluto.setState(new GrowState(pluto));
+        pluto.setState(new DisappearState(pluto));
         pluto.addConnectionNeighbour(earth);
 
         var mars = new Planet("Mars", galaxy, 300, 300, 0, 0, 8, Color.RED);

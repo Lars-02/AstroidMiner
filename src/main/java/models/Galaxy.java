@@ -30,6 +30,10 @@ public class Galaxy {
         }
         entities.addAll(addEntityList);
         addEntityList.clear();
+        for (Entity entity : removeEntityList) {
+            if (entity instanceof Planet planet)
+                planet.removeConnections();
+        }
         entities.removeAll(removeEntityList);
         removeEntityList.clear();
     }
