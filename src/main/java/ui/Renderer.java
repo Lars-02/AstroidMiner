@@ -150,8 +150,11 @@ public class Renderer {
     }
 
     public void renderGalaxy() {
+        var galaxyEntities = new ArrayList<>(galaxy.getEntities());
+
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (Entity entity : galaxy.getEntities()) {
+
+        for (Entity entity : galaxyEntities) {
             if (entity instanceof Planet planet) {
                 List<Planet> connections = new ArrayList<>();
                 for (Planet neighbour : planet.getNeighbours()) {
@@ -163,8 +166,8 @@ public class Renderer {
             }
         }
 
-        for (Entity entity : galaxy.getEntities()) {
-            gc.setFill(entity.color);
+        for (Entity entity : galaxyEntities) {
+            gc.setFill(entity.color.getFXColor());
             gc.fillOval(entity.position.x - entity.getRadius(), entity.position.y - entity.getRadius(), entity.getRadius() * 2, entity.getRadius() * 2);
 
             if (entity instanceof Planet planet)

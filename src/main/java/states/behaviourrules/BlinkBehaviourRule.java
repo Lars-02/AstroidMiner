@@ -1,6 +1,6 @@
 package states.behaviourrules;
 
-import javafx.scene.paint.Color;
+import models.Color;
 import models.Entity;
 import models.Galaxy;
 

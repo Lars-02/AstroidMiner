@@ -1,13 +1,13 @@
 package models;
 
-import javafx.scene.paint.Color;
 import states.behaviourrules.BehaviourRule;
 import ui.Renderer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Entity {
+public abstract class Entity implements Serializable {
     Entity(double x, double y, double velocityX, double velocityY, int radius, Color color) {
         this.position = new Vector2d(x, y);
         this.velocity = new Vector2d(velocityX, velocityY);

@@ -4,7 +4,7 @@ import enums.OnCollision;
 import exceptions.galaxyparser.InvalidEntityTypeException;
 import factories.EntityFactory;
 import factories.GalaxyBuilder;
-import javafx.scene.paint.Color;
+import models.Color;
 
 import java.util.*;
 

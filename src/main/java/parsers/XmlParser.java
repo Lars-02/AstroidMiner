@@ -6,7 +6,7 @@ import exceptions.galaxyparser.InvalidDataException;
 import exceptions.galaxyparser.InvalidEntityTypeException;
 import factories.EntityFactory;
 import factories.GalaxyBuilder;
-import javafx.scene.paint.Color;
+import models.Color;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -17,7 +17,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class XmlParser implements GalaxyParser {

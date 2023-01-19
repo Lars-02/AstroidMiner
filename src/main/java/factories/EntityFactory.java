@@ -1,7 +1,7 @@
 package factories;
 
 import enums.OnCollision;
-import javafx.scene.paint.Color;
+import models.Color;
 import models.Asteroid;
 import models.Entity;
 import models.Planet;

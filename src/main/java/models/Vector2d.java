@@ -1,6 +1,8 @@
 package models;
 
-public class Vector2d {
+import java.io.Serializable;
+
+public class Vector2d implements Serializable {
     public double x;
     public double y;
 

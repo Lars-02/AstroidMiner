@@ -3,7 +3,9 @@ package states.behaviourrules;
 import models.Entity;
 import models.Galaxy;
 
-public abstract class BehaviourRule {
+import java.io.Serializable;
+
+public abstract class BehaviourRule implements Serializable {
     protected Entity entity;
 
     BehaviourRule(Entity entity) {
