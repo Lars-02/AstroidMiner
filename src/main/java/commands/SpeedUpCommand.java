@@ -3,8 +3,8 @@ package commands;
 import models.Galaxy;
 
 public class SpeedUpCommand extends Command {
-    SpeedUpCommand(Galaxy galaxy) {
-        super(galaxy);
+    public SpeedUpCommand(Galaxy galaxy) {
+        super(galaxy, "Speed up");
     }
 
     @Override

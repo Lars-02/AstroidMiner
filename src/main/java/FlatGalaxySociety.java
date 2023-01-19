@@ -18,10 +18,10 @@ public class FlatGalaxySociety extends Application {
         var galaxy = new Galaxy();
 
         var earth = new Planet("Earth", galaxy, 600, 100, 0, 0, 4, Color.BLUE);
-        earth.setState(new BlinkState(earth));
+        earth.setState(new GrowState(earth));
 
         var pluto = new Planet("Pluto", galaxy, 50, 50, 20, 20, 2, Color.GREEN);
-        pluto.setState(new DisappearState(pluto));
+        pluto.setState(new BounceState(pluto));
         pluto.addConnectionNeighbour(earth);
 
         var mars = new Planet("Mars", galaxy, 300, 300, 0, 0, 8, Color.RED);
@@ -36,7 +36,9 @@ public class FlatGalaxySociety extends Application {
 
         var renderer = new Renderer(stage, galaxy);
 
-        renderer.render();
+        var canvas = renderer.initializeGalaxy();
+
+        renderer.renderGalaxy(canvas);
         new Thread(() -> {
             long waitUntil = System.currentTimeMillis() - 1;
             while (true) {
@@ -45,7 +47,7 @@ public class FlatGalaxySociety extends Application {
 
                 final long delta = System.currentTimeMillis() + MillisecondsPerTick - waitUntil;
                 galaxy.tick(delta);
-                renderer.render();
+                renderer.renderGalaxy(canvas);
 
                 waitUntil = System.currentTimeMillis() + MillisecondsPerTick;
             }

@@ -3,8 +3,8 @@ package commands;
 import models.Galaxy;
 
 public class QuadtreeCommand extends Command {
-    QuadtreeCommand(Galaxy galaxy) {
-        super(galaxy);
+    public QuadtreeCommand(Galaxy galaxy) {
+        super(galaxy, "Quadtree");
     }
 
     @Override

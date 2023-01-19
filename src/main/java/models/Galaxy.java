@@ -1,13 +1,27 @@
 package models;
 
+import commands.*;
+import javafx.scene.input.KeyCode;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Galaxy {
 
     private final List<Entity> entities = new ArrayList<>();
     private final List<Entity> removeEntityList = new ArrayList<>();
     private final List<Entity> addEntityList = new ArrayList<>();
+
+    public Map<Command, KeyCode> commandKeyMap = new HashMap<>(Map.of(
+            new SpeedUpCommand(this), KeyCode.EQUALS,
+            new SlowDownCommand(this), KeyCode.MINUS,
+            new PauseCommand(this), KeyCode.P,
+            new ResumeCommand(this), KeyCode.SPACE,
+            new QuadtreeCommand(this), KeyCode.Q,
+            new RevertCommand(this), KeyCode.R
+    ));
 
     public void addToGalaxy(Entity entity) {
         addEntityList.add(entity);

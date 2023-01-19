@@ -3,8 +3,8 @@ package commands;
 import models.Galaxy;
 
 public class ResumeCommand extends Command {
-    ResumeCommand(Galaxy galaxy) {
-        super(galaxy);
+    public ResumeCommand(Galaxy galaxy) {
+        super(galaxy, "Resume");
     }
 
     @Override

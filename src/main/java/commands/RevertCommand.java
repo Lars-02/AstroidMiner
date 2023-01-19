@@ -3,8 +3,8 @@ package commands;
 import models.Galaxy;
 
 public class RevertCommand extends Command {
-    RevertCommand(Galaxy galaxy) {
-        super(galaxy);
+    public RevertCommand(Galaxy galaxy) {
+        super(galaxy, "Revert");
     }
 
     @Override
