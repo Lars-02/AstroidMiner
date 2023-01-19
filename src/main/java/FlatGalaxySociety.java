@@ -6,8 +6,6 @@ import javafx.stage.Stage;
 import ui.Renderer;
 
 public class FlatGalaxySociety extends Application {
-    public static final int MillisecondsPerTick = 10;
-
     @Override
     public void start(Stage stage) {
         try {
@@ -22,16 +20,14 @@ public class FlatGalaxySociety extends Application {
 
             renderer.render();
             new Thread(() -> {
-                long waitUntil = System.currentTimeMillis() - 1;
+                var lastTick = System.currentTimeMillis();
                 while (true) {
-                    if (waitUntil > System.currentTimeMillis())
-                        continue;
+                    final var current = System.currentTimeMillis();
+                    final var delta = current - lastTick;
+                    lastTick = current;
 
-                    final long delta = System.currentTimeMillis() + MillisecondsPerTick - waitUntil;
                     galaxy.tick(delta);
                     renderer.render();
-
-                    waitUntil = System.currentTimeMillis() + MillisecondsPerTick;
                 }
             }).start();
 
