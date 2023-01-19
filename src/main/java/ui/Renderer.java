@@ -122,7 +122,7 @@ public class Renderer {
         stage.show();
     }
 
-    public Canvas initializeGalaxy() {
+    private void initializeGalaxy() {
         var scene = new Scene(new StackPane(canvas), ScreenWidth, ScreenHeight, Color.WHITE);
 
         scene.setOnKeyPressed(event -> {
@@ -143,7 +143,6 @@ public class Renderer {
         stage.setScene(scene);
         stage.show();
 
-        return canvas;
     }
 
     public void renderGalaxy() {
