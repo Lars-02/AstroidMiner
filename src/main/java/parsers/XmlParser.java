@@ -64,10 +64,10 @@ public class XmlParser implements GalaxyParser {
                         getDoubleValue(speedElement, "x"),
                         getDoubleValue(speedElement, "y"),
                         getIntValue(positionElement, "radius"),
-                        Color.valueOf(getStringValue(entityElement, "color"))
+                        Color.valueOf(getStringValue(entityElement, "color")),
+                        OnCollision.parseOnCollision(getStringValue(entityElement, "oncollision"))
                 );
 
-                var oncollision = OnCollision.parseOnCollision(getStringValue(entityElement, "oncollision"));
 
                 var entity = switch (type) {
                     case "planet" -> entityFactory.createPlanet(getStringValue(entityElement, "name"));

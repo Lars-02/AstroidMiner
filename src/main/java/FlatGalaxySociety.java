@@ -27,7 +27,14 @@ public class FlatGalaxySociety extends Application {
                     lastTick = current;
 
                     galaxy.tick(delta);
-                    renderer.render();
+                    synchronized (this) {
+                        renderer.render();
+                    }
+
+                    try {
+                        Thread.sleep(2);
+                    } catch (InterruptedException ignored) {
+                    }
                 }
             }).start();
 

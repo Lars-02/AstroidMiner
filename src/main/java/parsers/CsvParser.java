@@ -1,5 +1,6 @@
 package parsers;
 
+import enums.OnCollision;
 import exceptions.galaxyparser.InvalidEntityTypeException;
 import factories.EntityFactory;
 import factories.GalaxyBuilder;
@@ -22,7 +23,7 @@ public class CsvParser implements GalaxyParser {
             var map = new HashMap<String, String>();
 
             for (int i = 0; i < values.length; i++) {
-                map.put(names[i], values[i]);
+                map.put(names[i].trim(), values[i].trim());
             }
 
             data.add(map);
@@ -45,7 +46,8 @@ public class CsvParser implements GalaxyParser {
                     Double.parseDouble(entityMap.get("vy")),
                     Double.parseDouble(entityMap.get("vy")),
                     Integer.parseInt(entityMap.get("radius")),
-                    Color.valueOf(entityMap.get("color"))
+                    Color.valueOf(entityMap.get("color")),
+                    OnCollision.parseOnCollision(entityMap.get("oncollision"))
             );
 
             var type = entityMap.get("type");

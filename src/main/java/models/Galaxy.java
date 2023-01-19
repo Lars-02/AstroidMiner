@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Galaxy {
+    private final HashMap<Entity, ArrayList<Entity>> collisions = new HashMap<>();
 
     private final List<Entity> entities = new ArrayList<>();
     private final List<Entity> removeEntityList = new ArrayList<>();
@@ -13,10 +14,12 @@ public class Galaxy {
 
     public void addEntity(Entity entity) {
         addEntityList.add(entity);
+        collisions.put(entity, new ArrayList<>());
     }
 
     public void removeEntity(Entity entity) {
         removeEntityList.add(entity);
+        collisions.remove(entity);
     }
 
     public List<Entity> getEntities() {
@@ -24,36 +27,33 @@ public class Galaxy {
     }
 
     public void tick(long delta) {
-        var collisions = new HashMap<Entity, ArrayList<Entity>>();
-
-
-        for (Entity entity1 : entities) {
-            var entityCollisions = new ArrayList<Entity>();
-
-            for (Entity entity2 : entities) {
+        for (var entity1 : entities) {
+            for (var entity2 : entities) {
                 if (entity2 == entity1)
                     continue;
 
                 if (!collidedWithCircle(entity1, entity2))
                     continue;
 
-                entityCollisions.add(entity2);
+                if (collisions.get(entity1).contains(entity2))
+                    continue;
+
+                collisions.get(entity1).add(entity2);
                 entity1.onCollision(this, entity2);
             }
-
-            collisions.put(entity1, entityCollisions);
         }
 
-        for (Entity entity : entities) {
-            entity.translate(delta);
+        for (var entity : entities) {
+            entity.translate(delta * 20);
         }
 
         collisions.forEach((entity1, collidingEntities) -> {
-            for (Entity entity2 : collidingEntities) {
+            for (var entity2 : collidingEntities) {
                 if (collidedWithCircle(entity1, entity2))
                     continue;
 
                 entity1.onExitCollision(this, entity2);
+                collisions.get(entity1).remove(entity2);
                 return;
             }
         });
