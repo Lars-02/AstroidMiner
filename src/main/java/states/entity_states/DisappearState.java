@@ -1,6 +1,7 @@
 package states.entity_states;
 
 import models.Entity;
+import models.Galaxy;
 
 public class DisappearState extends EntityState {
     public DisappearState(Entity entity) {
@@ -8,12 +9,12 @@ public class DisappearState extends EntityState {
     }
 
     @Override
-    public void onCollisionEntry() {
-        entity.removeFromGalaxy();
+    public void onCollisionEntry(Galaxy galaxy) {
+        galaxy.removeEntity(entity);
     }
 
     @Override
-    public void onCollisionExit() {
+    public void onCollisionExit(Galaxy galaxy) {
 
     }
 }

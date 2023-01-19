@@ -3,6 +3,7 @@ package states.entity_states;
 import javafx.scene.paint.Color;
 import models.Asteroid;
 import models.Entity;
+import models.Galaxy;
 
 import java.util.Random;
 
@@ -12,17 +13,26 @@ public class ExplodeState extends EntityState {
     }
 
     @Override
-    public void onCollisionEntry() {
+    public void onCollisionEntry(Galaxy galaxy) {
         Random random = new Random();
         for (int i = 0; i < 5; i++) {
-            var asteroid = new Asteroid(entity.getGalaxy(), entity.x, entity.y, random.nextInt(20) - 10, random.nextInt(20) - 10, random.nextInt(3) + 1, Color.BLACK);
+            var asteroid = new Asteroid(
+                    entity.position.x,
+                    entity.position.y,
+                    random.nextInt(20) - 10,
+                    random.nextInt(20) - 10,
+                    random.nextInt(3) + 1,
+                    Color.BLACK
+            );
+
             asteroid.setState(new BounceState(asteroid));
+            galaxy.addEntity(asteroid);
         }
-        entity.removeFromGalaxy();
+        galaxy.removeEntity(entity);
     }
 
     @Override
-    public void onCollisionExit() {
+    public void onCollisionExit(Galaxy galaxy) {
 
     }
 }

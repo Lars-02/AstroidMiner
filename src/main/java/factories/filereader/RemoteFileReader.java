@@ -1,6 +1,6 @@
 package factories.filereader;
 
-import exceptions.RemoteFileReaderException;
+import exceptions.filereader.RemoteFileReaderException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

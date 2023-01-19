@@ -1,21 +1,20 @@
 package factories;
 
-import exceptions.FileReaderException;
+import exceptions.filereader.FileReaderException;
+import exceptions.galaxyparser.GalaxyParserException;
 import factories.filereader.FileReader;
-import factories.filereader.LocalFileReader;
-import factories.filereader.RemoteFileReader;
 import models.Galaxy;
+import parsers.GalaxyParser;
 
 public class GalaxyFactory {
-    public static Galaxy fromFile(String fileLocation) throws FileReaderException {
-        FileReader fileReader;
-        if (fileLocation.startsWith("http"))
-            fileReader = new RemoteFileReader();
-        else
-            fileReader = new LocalFileReader();
-
+    public static Galaxy fromFile(String fileLocation) throws FileReaderException, GalaxyParserException {
+        var fileReader = FileReader.getFileReader(fileLocation);
         var fileContent = fileReader.readFile(fileLocation);
 
-        return null; // TODO: Construct factory
+        var fileType = FileReader.getFileType(fileLocation);
+        var galaxyParser = GalaxyParser.getParser(fileType);
+        var galaxyBuilder = galaxyParser.parse(fileContent);
+
+        return galaxyBuilder.getResult();
     }
 }

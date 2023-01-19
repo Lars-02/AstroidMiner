@@ -8,120 +8,74 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Entity {
-    public static final int RadiusScale = 5;
-
-    Entity(Galaxy galaxy, double x, double y, double velocityX, double velocityY, int radius, Color color) {
-        this.galaxy = galaxy;
-        this.x = x;
-        this.y = y;
-        this.velocityX = velocityX;
-        this.velocityY = velocityY;
+    Entity(double x, double y, double velocityX, double velocityY, int radius, Color color) {
+        this.position = new Vector2d(x, y);
+        this.velocity = new Vector2d(velocityX, velocityY);
         this.radius = radius;
         this.color = color;
-        this.galaxy.addToGalaxy(this);
     }
 
-    public double x;
-    public double y;
+    public Vector2d position;
     public Color color;
 
     private int radius;
-    private final Galaxy galaxy;
-    public double velocityX;
-    public double velocityY;
-    private final List<Entity> colliders = new ArrayList<>();
+    public Vector2d velocity;
+    private final List<Entity> collidingEntities = new ArrayList<>();
     private EntityState state;
 
-    public void translate(long delta, List<Entity> entities) {
-        x += velocityX * ((double) delta / 1000);
-        y += velocityY * ((double) delta / 1000);
+    public void translate(long delta) {
+        position = position.add(velocity.mul((double) delta / 1000));
 
         if (collidedWithLeft() || collidedWithRight()) {
-            velocityX *= -1;
-            x = collidedWithLeft() ? getRadius() : Renderer.ScreenWidth - getRadius();
+            velocity.x *= -1;
+            position.x = collidedWithLeft() ? getRadius() : Renderer.ScreenWidth - getRadius();
         }
 
         if (collidedWithTop() || collidedWithBottom()) {
-            velocityY *= -1;
-            y = collidedWithTop() ? getRadius() : Renderer.ScreenHeight - getRadius();
+            velocity.y *= -1;
+            position.y = collidedWithTop() ? getRadius() : Renderer.ScreenHeight - getRadius();
         }
-
-        checkForEntityCollisions(entities);
     }
 
     public boolean isColliding() {
-        return !colliders.isEmpty();
+        return !collidingEntities.isEmpty();
     }
 
-    public void checkForEntityCollisions(List<Entity> entities) {
-        for (Entity entity : entities) {
-            if (!collidedWithCircle(entity))
-                continue;
-            if (colliders.stream().anyMatch(collider -> entity == collider)) continue;
-
-            colliders.add(entity);
-            state.onCollisionEntry();
-        }
-        for (Entity collider : colliders) {
-            if (collidedWithCircle(collider) && entities.stream().anyMatch(entity -> entity == collider))
-                continue;
-
-            colliders.remove(collider);
-            state.onCollisionExit();
-            return;
-        }
+    public void onCollision(Galaxy galaxy, Entity entity) {
+        collidingEntities.add(entity);
+        state.onCollisionEntry(galaxy);
     }
 
-    public double distanceToEntity(Entity entity) {
-        return Math.sqrt(Math.pow(x - entity.x, 2) + Math.pow(y - entity.y, 2));
-
-    }
-
-    public Galaxy getGalaxy() {
-        return galaxy;
+    public void onExitCollision(Galaxy galaxy, Entity entity) {
+        collidingEntities.remove(entity);
+        state.onCollisionExit(galaxy);
     }
 
     public int getRadius() {
-        return radius * RadiusScale;
-    }
-
-    public double getVelocityX() {
-        return velocityX;
-    }
-
-    public double getVelocityY() {
-        return velocityY;
+        return radius;
     }
 
     public void setState(EntityState state) {
         this.state = state;
     }
 
-    public void removeFromGalaxy() {
-        galaxy.removeFromGalaxy(this);
-    }
-
     public void setRadius(int radius) {
         this.radius = radius;
     }
 
-    private boolean collidedWithCircle(Entity entity) {
-        return distanceToEntity(entity) <= (getRadius() + entity.getRadius());
-    }
-
     private boolean collidedWithLeft() {
-        return x - getRadius() < 0;
+        return position.x - getRadius() < 0;
     }
 
     private boolean collidedWithRight() {
-        return x + getRadius() > Renderer.ScreenWidth;
+        return position.x + getRadius() > Renderer.ScreenWidth;
     }
 
     private boolean collidedWithTop() {
-        return y - getRadius() < 0;
+        return position.y - getRadius() < 0;
     }
 
     private boolean collidedWithBottom() {
-        return y + getRadius() > Renderer.ScreenHeight;
+        return position.y + getRadius() > Renderer.ScreenHeight;
     }
 }
