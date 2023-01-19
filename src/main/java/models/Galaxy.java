@@ -44,7 +44,7 @@ public class Galaxy {
         }
 
         for (var entity : entities) {
-            entity.translate(delta * 20);
+            entity.translate(delta);
         }
 
         collisions.forEach((entity1, collidingEntities) -> {
