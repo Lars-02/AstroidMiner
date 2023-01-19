@@ -4,7 +4,7 @@ import models.Entity;
 import models.Galaxy;
 
 public abstract class BehaviourRule {
-    Entity entity;
+    protected Entity entity;
 
     BehaviourRule(Entity entity) {
         this.entity = entity;
