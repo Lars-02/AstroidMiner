@@ -63,7 +63,7 @@ public abstract class Entity {
             state.onCollisionEntry();
         }
         for (Entity collider : colliders) {
-            if (collidedWithCircle(collider))
+            if (collidedWithCircle(collider) && entities.stream().anyMatch(entity -> entity == collider))
                 continue;
 
             colliders.remove(collider);
