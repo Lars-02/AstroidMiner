@@ -2,13 +2,9 @@ package factories;
 
 import javafx.scene.paint.Color;
 import models.Asteroid;
-import models.Entity;
-import models.Galaxy;
 import models.Planet;
 
 public class EntityFactory {
-
-    private final Galaxy galaxy;
     private final double x;
     private final double y;
     private final double velocityX;
@@ -16,8 +12,7 @@ public class EntityFactory {
     private final int radius;
     private final Color color;
 
-    public EntityFactory(Galaxy galaxy, double x, double y, double velocityX, double velocityY, int radius, Color color) {
-        this.galaxy = galaxy;
+    public EntityFactory(double x, double y, double velocityX, double velocityY, int radius, Color color) {
         this.x = x;
         this.y = y;
         this.velocityX = velocityX;
@@ -27,14 +22,10 @@ public class EntityFactory {
     }
 
     public Asteroid createAsteroid() {
-        final var entity = new Asteroid(galaxy, x, y, velocityX, velocityY, radius, color);
-        galaxy.addEntity(entity);
-        return entity;
+        return new Asteroid(x, y, velocityX, velocityY, radius, color);
     }
 
     public Planet createPlanet(String name) {
-        final var entity = new Planet(galaxy, name, x, y, velocityX, velocityY, radius, color);
-        galaxy.addEntity(entity);
-        return entity;
+        return new Planet(name, x, y, velocityX, velocityY, radius, color);
     }
 }

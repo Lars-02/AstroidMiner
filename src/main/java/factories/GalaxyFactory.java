@@ -13,7 +13,8 @@ public class GalaxyFactory {
 
         var fileType = FileReader.getFileType(fileLocation);
         var galaxyParser = GalaxyParser.getParser(fileType);
+        var galaxyBuilder = galaxyParser.parse(fileContent);
 
-        return galaxyParser.parse(fileContent);
+        return galaxyBuilder.getResult();
     }
 }

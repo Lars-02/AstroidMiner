@@ -1,6 +1,7 @@
 package states.entity_states;
 
 import models.Entity;
+import models.Galaxy;
 
 public abstract class EntityState {
     Entity entity;
@@ -9,6 +10,6 @@ public abstract class EntityState {
         this.entity = entity;
     }
 
-    public abstract void onCollisionEntry();
-    public abstract void onCollisionExit();
+    public abstract void onCollisionEntry(Galaxy galaxy);
+    public abstract void onCollisionExit(Galaxy galaxy);
 }

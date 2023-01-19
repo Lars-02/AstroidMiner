@@ -2,7 +2,7 @@ package parsers;
 
 import exceptions.galaxyparser.GalaxyParserException;
 import exceptions.galaxyparser.InvalidFileTypeException;
-import models.Galaxy;
+import factories.GalaxyBuilder;
 
 public interface GalaxyParser {
     static GalaxyParser getParser(String fileExtension) throws InvalidFileTypeException {
@@ -13,5 +13,5 @@ public interface GalaxyParser {
         };
     }
 
-    Galaxy parse(String fileContents) throws GalaxyParserException;
+    GalaxyBuilder parse(String fileContents) throws GalaxyParserException;
 }

@@ -1,6 +1,7 @@
 package states.entity_states;
 
 import models.Entity;
+import models.Galaxy;
 
 public class GrowState extends EntityState {
     public GrowState(Entity entity) {
@@ -8,7 +9,7 @@ public class GrowState extends EntityState {
     }
 
     @Override
-    public void onCollisionEntry() {
+    public void onCollisionEntry(Galaxy galaxy) {
         var radius = entity.getRadius();
         if (radius >= 20) {
             entity.setState(new ExplodeState(entity));
@@ -18,7 +19,7 @@ public class GrowState extends EntityState {
     }
 
     @Override
-    public void onCollisionExit() {
+    public void onCollisionExit(Galaxy galaxy) {
 
     }
 }

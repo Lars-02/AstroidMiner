@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Planet extends Entity {
-    public Planet(Galaxy galaxy, String name, double x, double y, double velocityX, double velocityY, int radius, Color color) {
-        super(galaxy, x, y, velocityX, velocityY, radius, color);
+    public Planet(String name, double x, double y, double velocityX, double velocityY, int radius, Color color) {
+        super(x, y, velocityX, velocityY, radius, color);
         this.name = name;
     }
 

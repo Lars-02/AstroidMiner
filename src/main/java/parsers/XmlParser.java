@@ -5,6 +5,7 @@ import exceptions.galaxyparser.GalaxyParserException;
 import exceptions.galaxyparser.InvalidDataException;
 import exceptions.galaxyparser.InvalidEntityTypeException;
 import factories.EntityFactory;
+import factories.GalaxyBuilder;
 import javafx.scene.paint.Color;
 import models.Galaxy;
 import org.w3c.dom.Element;
@@ -35,9 +36,9 @@ public class XmlParser implements GalaxyParser {
     }
 
     @Override
-    public Galaxy parse(String fileContents) throws GalaxyParserException {
+    public GalaxyBuilder parse(String fileContents) throws GalaxyParserException {
         try {
-            var galaxy = new Galaxy();
+            var galaxyBuilder = new GalaxyBuilder();
 
             var dbFactory = DocumentBuilderFactory.newInstance();
             var dBuilder = dbFactory.newDocumentBuilder();
@@ -58,7 +59,6 @@ public class XmlParser implements GalaxyParser {
                 var speedElement = getElement(entityElement, "speed");
 
                 var entityFactory = new EntityFactory(
-                        galaxy,
                         getDoubleValue(positionElement, "x"),
                         getDoubleValue(positionElement, "y"),
                         getDoubleValue(speedElement, "x"),
@@ -75,10 +75,10 @@ public class XmlParser implements GalaxyParser {
                     default -> throw new InvalidEntityTypeException(type);
                 };
 
-                galaxy.addEntity(entity);
+                galaxyBuilder.addEntity(entity);
             }
 
-            return galaxy;
+            return galaxyBuilder;
         } catch (ParserConfigurationException | IOException | SAXException | NullPointerException |
                  IllegalArgumentException e) {
             throw new InvalidDataException(e);

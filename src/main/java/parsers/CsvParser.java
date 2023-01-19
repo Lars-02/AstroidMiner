@@ -2,10 +2,8 @@ package parsers;
 
 import exceptions.galaxyparser.InvalidEntityTypeException;
 import factories.EntityFactory;
+import factories.GalaxyBuilder;
 import javafx.scene.paint.Color;
-import models.Asteroid;
-import models.Galaxy;
-import models.Planet;
 
 import java.util.*;
 
@@ -35,14 +33,13 @@ public class CsvParser implements GalaxyParser {
 
 
     @Override
-    public Galaxy parse(String fileContents) throws InvalidEntityTypeException {
+    public GalaxyBuilder parse(String fileContents) throws InvalidEntityTypeException {
         var data = toMapList(fileContents);
 
-        var galaxy = new Galaxy();
+        var galaxyBuilder = new GalaxyBuilder();
 
         for (var entityMap : data) {
             var entityFactory = new EntityFactory(
-                    galaxy,
                     Double.parseDouble(entityMap.get("x")),
                     Double.parseDouble(entityMap.get("y")),
                     Double.parseDouble(entityMap.get("vy")),
@@ -59,9 +56,9 @@ public class CsvParser implements GalaxyParser {
                 default -> throw new InvalidEntityTypeException(type);
             };
 
-            galaxy.addEntity(entity);
+            galaxyBuilder.addEntity(entity);
         }
 
-        return galaxy;
+        return galaxyBuilder;
     }
 }
