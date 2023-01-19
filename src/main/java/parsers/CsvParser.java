@@ -46,9 +46,12 @@ public class CsvParser implements GalaxyParser {
                     Double.parseDouble(entityMap.get("vy")),
                     Double.parseDouble(entityMap.get("vy")),
                     Integer.parseInt(entityMap.get("radius")),
-                    Color.valueOf(entityMap.get("color")),
-                    OnCollision.parseOnCollision(entityMap.get("oncollision"))
+                    Color.valueOf(entityMap.get("color"))
             );
+
+            Arrays.stream(entityMap.get("oncollision").split(","))
+                    .map(OnCollision::parseOnCollision)
+                    .forEach(entityFactory::addOnCollision);
 
             var type = entityMap.get("type");
 

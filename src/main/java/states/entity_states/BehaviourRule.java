@@ -3,10 +3,10 @@ package states.entity_states;
 import models.Entity;
 import models.Galaxy;
 
-public abstract class EntityState {
+public abstract class BehaviourRule {
     Entity entity;
 
-    EntityState(Entity entity) {
+    BehaviourRule(Entity entity) {
         this.entity = entity;
     }
 

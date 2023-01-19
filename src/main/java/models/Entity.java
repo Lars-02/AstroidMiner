@@ -1,7 +1,7 @@
 package models;
 
 import javafx.scene.paint.Color;
-import states.entity_states.EntityState;
+import states.entity_states.BehaviourRule;
 import ui.Renderer;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public abstract class Entity {
     private int radius;
     public Vector2d velocity;
     private final List<Entity> collidingEntities = new ArrayList<>();
-    private EntityState state;
+    private final List<BehaviourRule> behaviourRules = new ArrayList<>();
 
     public void translate(long delta) {
         position = position.add(velocity.mul((double) delta / 1000));
@@ -43,20 +43,27 @@ public abstract class Entity {
 
     public void onCollision(Galaxy galaxy, Entity entity) {
         collidingEntities.add(entity);
-        state.onCollisionEntry(galaxy);
+        List.copyOf(behaviourRules).forEach(br -> br.onCollisionEntry(galaxy));
     }
 
     public void onExitCollision(Galaxy galaxy, Entity entity) {
         collidingEntities.remove(entity);
-        state.onCollisionExit(galaxy);
+        List.copyOf(behaviourRules).forEach(br -> br.onCollisionExit(galaxy));
     }
 
     public int getRadius() {
         return radius;
     }
 
-    public void setState(EntityState state) {
-        this.state = state;
+    public void addBehaviourRule(BehaviourRule state) {
+        if (behaviourRules.contains(state))
+            return;
+
+        behaviourRules.add(state);
+    }
+
+    public void removeBehaviourRule(BehaviourRule state) {
+        behaviourRules.remove(state);
     }
 
     public void setRadius(int radius) {

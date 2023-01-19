@@ -7,8 +7,8 @@ import models.Galaxy;
 
 import java.util.Random;
 
-public class ExplodeState extends EntityState {
-    public ExplodeState(Entity entity) {
+public class ExplodeBehaviourRule extends BehaviourRule {
+    public ExplodeBehaviourRule(Entity entity) {
         super(entity);
     }
 
@@ -19,15 +19,16 @@ public class ExplodeState extends EntityState {
             var asteroid = new Asteroid(
                     entity.position.x,
                     entity.position.y,
-                    random.nextInt(20) - 10,
-                    random.nextInt(20) - 10,
+                    random.nextInt(-5, 5),
+                    random.nextInt(-5, 5),
                     random.nextInt(3) + 1,
                     Color.BLACK
             );
 
-            asteroid.setState(new BounceState(asteroid));
+            asteroid.addBehaviourRule(new BounceBehaviourRule(asteroid));
             galaxy.addEntity(asteroid);
         }
+        entity.removeBehaviourRule(this);
         galaxy.removeEntity(entity);
     }
 
