@@ -1,4 +1,4 @@
-package states.entity_states;
+package states.behaviourrules;
 
 import models.Entity;
 import models.Galaxy;

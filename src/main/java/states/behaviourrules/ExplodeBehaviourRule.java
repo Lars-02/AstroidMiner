@@ -1,4 +1,4 @@
-package states.entity_states;
+package states.behaviourrules;
 
 import javafx.scene.paint.Color;
 import models.Asteroid;

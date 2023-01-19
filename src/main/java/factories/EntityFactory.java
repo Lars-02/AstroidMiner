@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 import models.Asteroid;
 import models.Entity;
 import models.Planet;
-import states.entity_states.*;
+import states.behaviourrules.*;
 
 import java.util.ArrayList;
 import java.util.List;

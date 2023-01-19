@@ -1,7 +1,7 @@
 package models;
 
 import javafx.scene.paint.Color;
-import states.entity_states.BehaviourRule;
+import states.behaviourrules.BehaviourRule;
 import ui.Renderer;
 
 import java.util.ArrayList;
