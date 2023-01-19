@@ -1,10 +1,10 @@
-package states.entity_states;
+package states.behaviourrules;
 
 import models.Entity;
 import models.Galaxy;
 
-public class DisappearState extends EntityState {
-    public DisappearState(Entity entity) {
+public class DisappearBehaviourRule extends BehaviourRule {
+    public DisappearBehaviourRule(Entity entity) {
         super(entity);
     }
 

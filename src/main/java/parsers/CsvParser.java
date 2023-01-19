@@ -4,7 +4,7 @@ import enums.OnCollision;
 import exceptions.galaxyparser.InvalidEntityTypeException;
 import factories.EntityFactory;
 import factories.GalaxyBuilder;
-import javafx.scene.paint.Color;
+import models.Color;
 
 import java.util.*;
 
@@ -46,9 +46,12 @@ public class CsvParser implements GalaxyParser {
                     Double.parseDouble(entityMap.get("vy")),
                     Double.parseDouble(entityMap.get("vy")),
                     Integer.parseInt(entityMap.get("radius")),
-                    Color.valueOf(entityMap.get("color")),
-                    OnCollision.parseOnCollision(entityMap.get("oncollision"))
+                    Color.valueOf(entityMap.get("color"))
             );
+
+            Arrays.stream(entityMap.get("oncollision").split(","))
+                    .map(OnCollision::parseOnCollision)
+                    .forEach(entityFactory::addOnCollision);
 
             var type = entityMap.get("type");
 

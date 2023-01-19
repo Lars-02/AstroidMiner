@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import ui.Renderer;
 
 public class FlatGalaxySociety extends Application {
+    private static final int BookmarkIntervalMillis = 5000;
 
     public static boolean isPaused = false;
     public static int deltaMultiplier = 10;
@@ -28,16 +29,21 @@ public class FlatGalaxySociety extends Application {
 
             renderer.renderGalaxy();
             new Thread(() -> {
+                var lastSave = System.currentTimeMillis();
                 var lastTick = System.currentTimeMillis();
                 while (true) {
                     final var current = System.currentTimeMillis();
                     final var delta = current - lastTick;
                     lastTick = current;
 
-                    Platform.runLater(() -> {
-                        galaxy.tick(isPaused ? 0 : delta * deltaMultiplier);
-                        renderer.renderGalaxy();
-                    });
+                    galaxy.tick(isPaused ? 0 : delta * deltaMultiplier);
+
+                    if (!isPaused && current - lastSave > BookmarkIntervalMillis) {
+                        galaxy.save();
+                        lastSave = current;
+                    }
+
+                    Platform.runLater(renderer::renderGalaxy);
 
                     try {
                         Thread.sleep(2);

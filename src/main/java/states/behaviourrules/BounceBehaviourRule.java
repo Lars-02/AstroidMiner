@@ -1,10 +1,10 @@
-package states.entity_states;
+package states.behaviourrules;
 
 import models.Entity;
 import models.Galaxy;
 
-public class BounceState extends EntityState {
-    public BounceState(Entity entity) {
+public class BounceBehaviourRule extends BehaviourRule {
+    public BounceBehaviourRule(Entity entity) {
         super(entity);
     }
 
@@ -18,7 +18,10 @@ public class BounceState extends EntityState {
 
     @Override
     public void onCollisionExit(Galaxy galaxy) {
-        if (bounces >= 5)
-            entity.setState(new BlinkState(entity));
+        if (bounces < 5)
+            return;
+
+        entity.removeBehaviourRule(this);
+        entity.addBehaviourRule(new BlinkBehaviourRule(entity));
     }
 }

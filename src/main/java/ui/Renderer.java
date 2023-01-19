@@ -28,6 +28,9 @@ public class Renderer {
     public static final int ScreenWidth = 800;
     public static final int ScreenHeight = 600;
 
+    private static final Font menuFont = Font.font("Arial", 18);
+    private static final Font galaxyFont = Font.font("Arial", 14);
+
     private final Galaxy galaxy;
     private final Stage stage;
     private final Canvas canvas;
@@ -41,23 +44,20 @@ public class Renderer {
         this.gc = canvas.getGraphicsContext2D();
 
         gc.setTextAlign(TextAlignment.CENTER);
-        gc.setFont(Font.font("Arial", 14));
+        gc.setFont(galaxyFont);
 
         stage.setResizable(false);
         stage.setTitle("Flat Galaxy Society");
 
-        initializeGalaxy();
+        initializeGalaxyScene();
     }
 
-    public void initializeMenu(Scene galaxyScene) {
-
-        // Init grid
+    public void openKeybindingMenu(Scene parent) {
         var grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(20);
         grid.setVgap(20);
 
-        // Init scene
         var scene = new Scene(grid, ScreenWidth, ScreenHeight, Color.WHITE);
         stage.setScene(scene);
 
@@ -66,18 +66,19 @@ public class Renderer {
                 return;
 
             isPaused = false;
-            stage.setScene(galaxyScene);
+            stage.setScene(parent);
             stage.show();
         });
 
-        int index = 0;
+        int gridY = 0;
         for (var commandKey : galaxy.commandKeyMap.entrySet().stream().toList()) {
             final var descriptionText = new Text(commandKey.getKey().name);
-            descriptionText.setStyle("-fx-font: 18 arial;");
-            grid.add(descriptionText, 0, index);
+            descriptionText.setFont(menuFont);
+
+            grid.add(descriptionText, 0, gridY);
 
             final var key = new Text(commandKey.getValue().getName());
-            key.setStyle("-fx-font: 18 arial;");
+            key.setFont(menuFont);
 
             key.setOnMouseEntered(event -> {
                 if (keyClicked != null && keyClicked == key)
@@ -99,33 +100,37 @@ public class Renderer {
                             text.setFill(Color.BLACK);
                     }
                 }
+
                 key.setFill(Color.DARKBLUE);
                 keyClicked = key;
+
                 stage.getScene().setOnKeyPressed(keyEvent -> {
                     if (keyEvent.getCode() == KeyCode.ESCAPE) {
                         isPaused = false;
-                        stage.setScene(galaxyScene);
+                        stage.setScene(parent);
                         stage.show();
                         return;
                     }
+
                     if (galaxy.commandKeyMap.containsValue(keyEvent.getCode())) {
                         key.setFill(Color.RED);
                         return;
                     }
-                    key.setText(keyEvent.getCode().getName());
+
                     galaxy.commandKeyMap.put(commandKey.getKey(), keyEvent.getCode());
+                    key.setText(keyEvent.getCode().getName());
                     key.setFill(Color.GREEN);
                 });
             });
 
-            grid.add(key, 1, index);
-            index++;
+            grid.add(key, 1, gridY);
+            gridY++;
         }
 
         stage.show();
     }
 
-    private void initializeGalaxy() {
+    private void initializeGalaxyScene() {
         var scene = new Scene(new StackPane(canvas), ScreenWidth, ScreenHeight, Color.WHITE);
 
         scene.setOnKeyPressed(event -> {
@@ -140,7 +145,7 @@ public class Renderer {
                 return;
 
             isPaused = true;
-            initializeMenu(scene);
+            openKeybindingMenu(scene);
         });
 
 
@@ -150,8 +155,11 @@ public class Renderer {
     }
 
     public void renderGalaxy() {
+        var galaxyEntities = new ArrayList<>(galaxy.getEntities());
+
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        for (Entity entity : galaxy.getEntities()) {
+
+        for (Entity entity : galaxyEntities) {
             if (entity instanceof Planet planet) {
                 List<Planet> connections = new ArrayList<>();
                 for (Planet neighbour : planet.getNeighbours()) {
@@ -163,8 +171,8 @@ public class Renderer {
             }
         }
 
-        for (Entity entity : galaxy.getEntities()) {
-            gc.setFill(entity.color);
+        for (Entity entity : galaxyEntities) {
+            gc.setFill(entity.color.getFXColor());
             gc.fillOval(entity.position.x - entity.getRadius(), entity.position.y - entity.getRadius(), entity.getRadius() * 2, entity.getRadius() * 2);
 
             if (entity instanceof Planet planet)

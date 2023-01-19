@@ -1,11 +1,11 @@
-package states.entity_states;
+package states.behaviourrules;
 
-import javafx.scene.paint.Color;
+import models.Color;
 import models.Entity;
 import models.Galaxy;
 
-public class BlinkState extends EntityState {
-    public BlinkState(Entity entity) {
+public class BlinkBehaviourRule extends BehaviourRule {
+    public BlinkBehaviourRule(Entity entity) {
         super(entity);
         initialColor = entity.color;
     }

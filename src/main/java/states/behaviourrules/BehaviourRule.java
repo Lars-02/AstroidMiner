@@ -1,12 +1,14 @@
-package states.entity_states;
+package states.behaviourrules;
 
 import models.Entity;
 import models.Galaxy;
 
-public abstract class EntityState {
-    Entity entity;
+import java.io.Serializable;
 
-    EntityState(Entity entity) {
+public abstract class BehaviourRule implements Serializable {
+    protected Entity entity;
+
+    BehaviourRule(Entity entity) {
         this.entity = entity;
     }
 

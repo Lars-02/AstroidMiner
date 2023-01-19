@@ -6,7 +6,7 @@ import exceptions.galaxyparser.InvalidDataException;
 import exceptions.galaxyparser.InvalidEntityTypeException;
 import factories.EntityFactory;
 import factories.GalaxyBuilder;
-import javafx.scene.paint.Color;
+import models.Color;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -24,16 +24,36 @@ public class XmlParser implements GalaxyParser {
         return getElement(element, tag).getTextContent();
     }
 
-    private double getDoubleValue(Element element, String tag) {
-        return Double.parseDouble(getStringValue(element, tag));
+    private List<String> getStringValues(Element parentElement, String tag) {
+        return getElements(parentElement, tag).stream().map(Node::getTextContent).toList();
     }
 
-    private int getIntValue(Element element, String tag) {
-        return Integer.parseInt(getStringValue(element, tag));
+    private double getDoubleValue(Element parentElement, String tag) {
+        return Double.parseDouble(getStringValue(parentElement, tag));
     }
 
-    private Element getElement(Element element, String tag) {
-        return (Element) element.getElementsByTagName(tag).item(0);
+    private int getIntValue(Element parentElement, String tag) {
+        return Integer.parseInt(getStringValue(parentElement, tag));
+    }
+
+    private Element getElement(Element parentElement, String tag) {
+        var elements = getElements(parentElement, tag);
+
+        if (elements.size() == 0)
+            return null;
+
+        return elements.get(0);
+    }
+
+    private List<Element> getElements(Element parentElement, String tag) {
+        var nodes = parentElement.getElementsByTagName(tag);
+        var elements = new ArrayList<Element>();
+
+        for (int i = 0; i < nodes.getLength(); i++) {
+            elements.add((Element) nodes.item(i));
+        }
+
+        return elements;
     }
 
     private List<String> getNeighbours(Element planet) {
@@ -81,9 +101,13 @@ public class XmlParser implements GalaxyParser {
                         getDoubleValue(speedElement, "x"),
                         getDoubleValue(speedElement, "y"),
                         getIntValue(positionElement, "radius"),
-                        Color.valueOf(getStringValue(entityElement, "color")),
-                        OnCollision.parseOnCollision(getStringValue(entityElement, "oncollision"))
+                        Color.valueOf(getStringValue(entityElement, "color"))
                 );
+
+                getStringValues(entityElement, "oncollision")
+                        .stream()
+                        .map(OnCollision::parseOnCollision)
+                        .forEach(entityFactory::addOnCollision);
 
 
                 var entity = switch (type) {
