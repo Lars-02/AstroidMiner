@@ -1,6 +1,7 @@
 package commands;
 
 import models.Galaxy;
+import main.FlatGalaxySociety;
 
 public class PauseCommand extends Command {
     public PauseCommand(Galaxy galaxy) {
@@ -9,6 +10,6 @@ public class PauseCommand extends Command {
 
     @Override
     public void execute() {
-        System.out.println("Pause the game");
+        FlatGalaxySociety.isPaused = true;
     }
 }

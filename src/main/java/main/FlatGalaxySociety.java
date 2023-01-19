@@ -1,3 +1,5 @@
+package main;
+
 import exceptions.filereader.FileReaderException;
 import exceptions.galaxyparser.GalaxyParserException;
 import factories.GalaxyFactory;
@@ -6,6 +8,9 @@ import javafx.stage.Stage;
 import ui.Renderer;
 
 public class FlatGalaxySociety extends Application {
+
+    public static boolean isPaused = false;
+
     @Override
     public void start(Stage stage) {
         try {
@@ -29,7 +34,7 @@ public class FlatGalaxySociety extends Application {
                     final var delta = current - lastTick;
                     lastTick = current;
 
-                    galaxy.tick(delta);
+                    galaxy.tick(isPaused ? 0 : delta * 10);
                     synchronized (this) {
                         renderer.renderGalaxy(canvas);
                     }

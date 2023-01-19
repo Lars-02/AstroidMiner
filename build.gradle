@@ -6,7 +6,7 @@ plugins {
 group 'dev.maik.schoolassignments'
 version '1.0-SNAPSHOT'
 
-mainClassName = 'FlatGalaxySociety'
+mainClassName = 'main.FlatGalaxySociety'
 
 repositories {
     mavenCentral()

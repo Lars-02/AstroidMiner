@@ -1,5 +1,6 @@
 package commands;
 
+import main.FlatGalaxySociety;
 import models.Galaxy;
 
 public class ResumeCommand extends Command {
@@ -9,6 +10,6 @@ public class ResumeCommand extends Command {
 
     @Override
     public void execute() {
-
+        FlatGalaxySociety.isPaused = false;
     }
 }
