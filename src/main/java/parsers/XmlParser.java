@@ -4,10 +4,9 @@ import enums.OnCollision;
 import exceptions.galaxyparser.GalaxyParserException;
 import exceptions.galaxyparser.InvalidDataException;
 import exceptions.galaxyparser.InvalidEntityTypeException;
+import factories.EntityFactory;
 import javafx.scene.paint.Color;
-import models.Asteroid;
 import models.Galaxy;
-import models.Planet;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -56,37 +55,23 @@ public class XmlParser implements GalaxyParser {
                 var type = entityElement.getNodeName();
 
                 var positionElement = getElement(entityElement, "position");
-                var positionX = getDoubleValue(positionElement, "x");
-                var positionY = getDoubleValue(positionElement, "y");
-                var radius = getIntValue(positionElement, "radius");
-
                 var speedElement = getElement(entityElement, "speed");
-                var speedX = getDoubleValue(speedElement, "x");
-                var speedY = getDoubleValue(speedElement, "y");
 
-                var color = Color.valueOf(getStringValue(entityElement, "color"));
+                var entityFactory = new EntityFactory(
+                        galaxy,
+                        getDoubleValue(positionElement, "x"),
+                        getDoubleValue(positionElement, "y"),
+                        getDoubleValue(speedElement, "x"),
+                        getDoubleValue(speedElement, "y"),
+                        getIntValue(positionElement, "radius"),
+                        Color.valueOf(getStringValue(entityElement, "color"))
+                );
+
                 var oncollision = OnCollision.parseOnCollision(getStringValue(entityElement, "oncollision"));
 
                 var entity = switch (type) {
-                    case "planet" -> new Planet(
-                            galaxy,
-                            getStringValue(entityElement, "name"),
-                            positionX,
-                            positionY,
-                            speedX,
-                            speedY,
-                            radius,
-                            color
-                    );
-                    case "asteroid" -> new Asteroid(
-                            galaxy,
-                            positionX,
-                            positionY,
-                            speedX,
-                            speedY,
-                            radius,
-                            color
-                    );
+                    case "planet" -> entityFactory.createPlanet(getStringValue(entityElement, "name"));
+                    case "asteroid" -> entityFactory.createAsteroid();
                     default -> throw new InvalidEntityTypeException(type);
                 };
 

@@ -16,7 +16,6 @@ public abstract class Entity {
         this.velocityY = velocityY;
         this.radius = radius;
         this.color = color;
-        this.galaxy.addEntity(this);
     }
 
     public double x;

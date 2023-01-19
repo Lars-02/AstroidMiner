@@ -1,6 +1,7 @@
 package parsers;
 
 import exceptions.galaxyparser.InvalidEntityTypeException;
+import factories.EntityFactory;
 import javafx.scene.paint.Color;
 import models.Asteroid;
 import models.Galaxy;
@@ -40,28 +41,21 @@ public class CsvParser implements GalaxyParser {
         var galaxy = new Galaxy();
 
         for (var entityMap : data) {
+            var entityFactory = new EntityFactory(
+                    galaxy,
+                    Double.parseDouble(entityMap.get("x")),
+                    Double.parseDouble(entityMap.get("y")),
+                    Double.parseDouble(entityMap.get("vy")),
+                    Double.parseDouble(entityMap.get("vy")),
+                    Integer.parseInt(entityMap.get("radius")),
+                    Color.valueOf(entityMap.get("color"))
+            );
+
             var type = entityMap.get("type");
 
             var entity = switch (type) {
-                case "Planet" -> new Planet(
-                        galaxy,
-                        entityMap.get("name"),
-                        Double.parseDouble(entityMap.get("x")),
-                        Double.parseDouble(entityMap.get("y")),
-                        Double.parseDouble(entityMap.get("vy")),
-                        Double.parseDouble(entityMap.get("vy")),
-                        Integer.parseInt(entityMap.get("radius")),
-                        Color.valueOf(entityMap.get("color"))
-                );
-                case "Asteroid" -> new Asteroid(
-                        galaxy,
-                        Double.parseDouble(entityMap.get("x")),
-                        Double.parseDouble(entityMap.get("y")),
-                        Double.parseDouble(entityMap.get("vy")),
-                        Double.parseDouble(entityMap.get("vy")),
-                        Integer.parseInt(entityMap.get("radius")),
-                        Color.valueOf(entityMap.get("color"))
-                );
+                case "Planet" -> entityFactory.createPlanet(entityMap.get("name"));
+                case "Asteroid" -> entityFactory.createAsteroid();
                 default -> throw new InvalidEntityTypeException(type);
             };
 
