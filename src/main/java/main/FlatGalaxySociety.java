@@ -35,7 +35,7 @@ public class FlatGalaxySociety extends Application {
                     lastTick = current;
 
                     galaxy.tick(isPaused ? 0 : delta * 10);
-                    synchronized (this) {
+                    synchronized (renderer) {
                         renderer.renderGalaxy(canvas);
                     }
 
