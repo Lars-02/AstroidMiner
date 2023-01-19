@@ -4,7 +4,7 @@ import models.Galaxy;
 
 public class QuadCollisionChecker extends CollisionChecker {
 
-    QuadCollisionChecker(Galaxy galaxy) {
+    public QuadCollisionChecker(Galaxy galaxy) {
         super(galaxy);
     }
 

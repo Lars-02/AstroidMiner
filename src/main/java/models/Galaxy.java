@@ -16,7 +16,7 @@ import java.util.Map;
 public class Galaxy implements Restorable<GalaxyState> {
     private final History<Galaxy, GalaxyState> history = new History<>();
     public HashMap<Entity, ArrayList<Entity>> collisions = new HashMap<>();
-    CollisionChecker collisionChecker = new NaiveCollisionChecker(this);
+    public CollisionChecker collisionChecker = new NaiveCollisionChecker(this);
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> removeEntityList = new ArrayList<>();
     private List<Entity> addEntityList = new ArrayList<>();
@@ -28,7 +28,8 @@ public class Galaxy implements Restorable<GalaxyState> {
             new ResumeCommand(this), KeyCode.SPACE,
             new QuadtreeCommand(this), KeyCode.Q,
             new PreviousBookmarkCommand(this), KeyCode.LEFT,
-            new NextBookmarkCommand(this), KeyCode.RIGHT
+            new NextBookmarkCommand(this), KeyCode.RIGHT,
+            new SwitchCollosionModeCommand(this), KeyCode.C
     ));
 
     public void addEntity(Entity entity) {
