@@ -1,6 +1,7 @@
 package states.entity_states;
 
 import models.Entity;
+import models.Galaxy;
 
 public class BounceState extends EntityState {
     public BounceState(Entity entity) {
@@ -10,14 +11,13 @@ public class BounceState extends EntityState {
     private int bounces = 0;
 
     @Override
-    public void onCollisionEntry() {
+    public void onCollisionEntry(Galaxy galaxy) {
         bounces++;
-        entity.velocityX *= -1;
-        entity.velocityY *= -1;
+        entity.velocity = entity.velocity.mul(-1);
     }
 
     @Override
-    public void onCollisionExit() {
+    public void onCollisionExit(Galaxy galaxy) {
         if (bounces >= 5)
             entity.setState(new BlinkState(entity));
     }

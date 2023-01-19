@@ -1,6 +1,6 @@
 package factories.filereader;
 
-import exceptions.LocalFileReaderException;
+import exceptions.filereader.LocalFileReaderException;
 
 import java.io.IOException;
 import java.nio.file.Files;

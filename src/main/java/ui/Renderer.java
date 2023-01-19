@@ -43,14 +43,14 @@ public class Renderer {
                     if (connections.stream().anyMatch(connection -> entity == connection))
                         continue;
                     connections.add(neighbour);
-                    gc.strokeLine(entity.x, entity.y, neighbour.x, neighbour.y);
+                    gc.strokeLine(entity.position.x, entity.position.y, neighbour.position.x, neighbour.position.y);
                 }
             }
         }
 
         for (Entity entity : galaxy.getEntities()) {
             gc.setFill(entity.color);
-            gc.fillOval(entity.x - entity.getRadius(), entity.y - entity.getRadius(), entity.getRadius() * 2, entity.getRadius() * 2);
+            gc.fillOval(entity.position.x - entity.getRadius(), entity.position.y - entity.getRadius(), entity.getRadius() * 2, entity.getRadius() * 2);
         }
     }
 }
