@@ -136,9 +136,9 @@ public class Renderer {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Entity entity : galaxy.getEntities()) {
-            if (entity instanceof Planet) {
+            if (entity instanceof Planet planet) {
                 List<Planet> connections = new ArrayList<>();
-                for (Planet neighbour : ((Planet) entity).getNeighbours()) {
+                for (Planet neighbour : planet.getNeighbours()) {
                     if (connections.stream().anyMatch(connection -> entity == connection))
                         continue;
                     connections.add(neighbour);
@@ -150,6 +150,9 @@ public class Renderer {
         for (Entity entity : galaxy.getEntities()) {
             gc.setFill(entity.color);
             gc.fillOval(entity.position.x - entity.getRadius(), entity.position.y - entity.getRadius(), entity.getRadius() * 2, entity.getRadius() * 2);
+
+            if (entity instanceof Planet planet)
+                gc.strokeText(planet.name, entity.position.x, entity.position.y);
         }
     }
 }
