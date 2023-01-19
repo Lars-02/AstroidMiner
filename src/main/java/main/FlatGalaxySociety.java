@@ -4,6 +4,7 @@ import exceptions.filereader.FileReaderException;
 import exceptions.galaxyparser.GalaxyParserException;
 import factories.GalaxyFactory;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import ui.Renderer;
 
@@ -34,10 +35,10 @@ public class FlatGalaxySociety extends Application {
                     final var delta = current - lastTick;
                     lastTick = current;
 
-                    galaxy.tick(isPaused ? 0 : delta * 10);
-                    synchronized (renderer) {
+                    Platform.runLater(() -> {
+                        galaxy.tick(isPaused ? 0 : delta * 10);
                         renderer.renderGalaxy(canvas);
-                    }
+                    });
 
                     try {
                         Thread.sleep(2);
