@@ -58,7 +58,9 @@ public class CsvParser implements GalaxyParser {
                 default -> throw new InvalidEntityTypeException(type);
             };
 
-            galaxyBuilder.addEntity(entity);
+            var neighbours = entityMap.get("neighbours").split(",");
+
+            galaxyBuilder.addEntity(entity, List.of(neighbours));
         }
 
         return galaxyBuilder;
