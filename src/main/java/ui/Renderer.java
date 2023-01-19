@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static main.FlatGalaxySociety.deltaMultiplier;
+import static main.FlatGalaxySociety.isPaused;
 
 public class Renderer {
 
@@ -59,6 +60,7 @@ public class Renderer {
             if (event.getCode() != KeyCode.ESCAPE)
                 return;
 
+            isPaused = false;
             stage.setScene(galaxyScene);
             stage.show();
         });
@@ -96,6 +98,7 @@ public class Renderer {
                 keyClicked = key;
                 stage.getScene().setOnKeyPressed(keyEvent -> {
                     if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                        isPaused = false;
                         stage.setScene(galaxyScene);
                         stage.show();
                         return;
@@ -131,6 +134,7 @@ public class Renderer {
             if (event.getCode() != KeyCode.ESCAPE)
                 return;
 
+            isPaused = true;
             initializeMenu(scene);
         });
 
