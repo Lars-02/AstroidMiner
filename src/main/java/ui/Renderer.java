@@ -9,7 +9,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import models.Entity;
 import models.Galaxy;
@@ -17,6 +19,8 @@ import models.Planet;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static main.FlatGalaxySociety.deltaMultiplier;
 
 public class Renderer {
 
@@ -91,7 +95,7 @@ public class Renderer {
                 key.setFill(Color.DARKBLUE);
                 keyClicked = key;
                 stage.getScene().setOnKeyPressed(keyEvent -> {
-                    if (keyEvent.getCode() == KeyCode.ESCAPE ) {
+                    if (keyEvent.getCode() == KeyCode.ESCAPE) {
                         stage.setScene(galaxyScene);
                         stage.show();
                         return;
@@ -156,8 +160,11 @@ public class Renderer {
             gc.setFill(entity.color);
             gc.fillOval(entity.position.x - entity.getRadius(), entity.position.y - entity.getRadius(), entity.getRadius() * 2, entity.getRadius() * 2);
 
-            if (entity instanceof Planet planet)
-                gc.strokeText(planet.name, entity.position.x, entity.position.y);
+            gc.setTextAlign(TextAlignment.CENTER);
+            if (entity instanceof Planet planet) {
+                gc.strokeText(planet.name, entity.position.x, entity.position.y - planet.getRadius() - 2);
+            }
+            gc.strokeText("Multiplier: " + deltaMultiplier, (double) ScreenWidth / 2, 20);
         }
     }
 }

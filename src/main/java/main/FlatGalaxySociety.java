@@ -11,6 +11,7 @@ import ui.Renderer;
 public class FlatGalaxySociety extends Application {
 
     public static boolean isPaused = false;
+    public static int deltaMultiplier = 10;
 
     @Override
     public void start(Stage stage) {
@@ -34,7 +35,7 @@ public class FlatGalaxySociety extends Application {
                     lastTick = current;
 
                     Platform.runLater(() -> {
-                        galaxy.tick(isPaused ? 0 : delta * 10);
+                        galaxy.tick(isPaused ? 0 : delta * deltaMultiplier);
                         renderer.renderGalaxy();
                     });
 
