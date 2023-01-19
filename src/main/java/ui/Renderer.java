@@ -31,12 +31,17 @@ public class Renderer {
     private final Galaxy galaxy;
     private final Stage stage;
     private final Canvas canvas;
+    private final GraphicsContext gc;
     private Text keyClicked;
 
     public Renderer(Stage stage, Galaxy galaxy) {
         this.galaxy = galaxy;
         this.stage = stage;
         this.canvas = new Canvas(ScreenWidth, ScreenHeight);
+        this.gc = canvas.getGraphicsContext2D();
+
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.setFont(Font.font("Arial", 14));
 
         stage.setResizable(false);
         stage.setTitle("Flat Galaxy Society");
@@ -120,7 +125,7 @@ public class Renderer {
         stage.show();
     }
 
-    public Canvas initializeGalaxy() {
+    private void initializeGalaxy() {
         var scene = new Scene(new StackPane(canvas), ScreenWidth, ScreenHeight, Color.WHITE);
 
         scene.setOnKeyPressed(event -> {
@@ -142,11 +147,9 @@ public class Renderer {
         stage.setScene(scene);
         stage.show();
 
-        return canvas;
     }
 
     public void renderGalaxy() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (Entity entity : galaxy.getEntities()) {
             if (entity instanceof Planet planet) {
@@ -164,11 +167,10 @@ public class Renderer {
             gc.setFill(entity.color);
             gc.fillOval(entity.position.x - entity.getRadius(), entity.position.y - entity.getRadius(), entity.getRadius() * 2, entity.getRadius() * 2);
 
-            gc.setTextAlign(TextAlignment.CENTER);
-            if (entity instanceof Planet planet) {
-                gc.strokeText(planet.name, entity.position.x, entity.position.y - planet.getRadius() - 2);
-            }
-            gc.strokeText("Multiplier: " + deltaMultiplier, (double) ScreenWidth / 2, 20);
+            if (entity instanceof Planet planet)
+                gc.fillText(planet.name, entity.position.x, entity.position.y - planet.getRadius() - 2);
         }
+
+        gc.fillText("Multiplier: " + deltaMultiplier, (double) ScreenWidth / 2, 20);
     }
 }
