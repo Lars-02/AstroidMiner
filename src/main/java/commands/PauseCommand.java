@@ -9,6 +9,6 @@ public class PauseCommand extends Command {
 
     @Override
     public void execute() {
-
+        System.out.println("Pause the game");
     }
 }

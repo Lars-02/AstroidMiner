@@ -11,15 +11,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import models.Entity;
 import models.Galaxy;
 import models.Planet;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class Renderer {
 
@@ -89,7 +86,7 @@ public class Renderer {
                 key.setFill(Color.DARKBLUE);
                 keyClicked = key;
                 stage.getScene().setOnKeyPressed(keyEvent -> {
-                    if (galaxy.commandKeyMap.containsValue(keyEvent.getCode())) {
+                    if (keyEvent.getCode() == KeyCode.ESCAPE || galaxy.commandKeyMap.containsValue(keyEvent.getCode())) {
                         key.setFill(Color.RED);
                         return;
                     }
@@ -112,11 +109,19 @@ public class Renderer {
         var scene = new Scene(new StackPane(canvas), ScreenWidth, ScreenHeight, Color.WHITE);
 
         scene.setOnKeyPressed(event -> {
+            for (var command : galaxy.commandKeyMap.entrySet()) {
+                if (event.getCode() != command.getValue())
+                    continue;
+
+                command.getKey().execute();
+            }
+
             if (event.getCode() != KeyCode.ESCAPE)
                 return;
 
             initializeMenu(scene);
         });
+
 
         stage.setScene(scene);
         stage.show();
