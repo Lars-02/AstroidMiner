@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import ui.Renderer;
 
+import java.util.Comparator;
 import java.util.Map;
 
 import static ui.model.Config.SCREEN_HEIGHT;
@@ -39,13 +40,14 @@ public class KeybindingsRenderer extends SceneRenderer {
         });
 
         int gridY = 0;
-        for (var commandKey : keybindings.entrySet()) {
-            final var descriptionText = new Text(commandKey.getValue().name);
+        var sortedKeybindings = keybindings.entrySet().stream().sorted(Comparator.comparing(a -> a.getValue().name)).toList();
+        for (var keybinding : sortedKeybindings) {
+            final var descriptionText = new Text(keybinding.getValue().name);
             descriptionText.setFont(font);
 
             grid.add(descriptionText, 0, gridY);
 
-            final var key = new Text(commandKey.getKey().getName());
+            final var key = new Text(keybinding.getKey().getName());
             key.setFont(font);
 
             key.setOnMouseEntered(event -> {
@@ -83,8 +85,8 @@ public class KeybindingsRenderer extends SceneRenderer {
                         return;
                     }
 
-                    keybindings.remove(commandKey.getKey());
-                    keybindings.put(keyEvent.getCode(), commandKey.getValue());
+                    keybindings.remove(keybinding.getKey());
+                    keybindings.put(keyEvent.getCode(), keybinding.getValue());
 
                     key.setText(keyEvent.getCode().getName());
                     key.setFill(Color.GREEN);
