@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class Galaxy implements Restorable<GalaxyState> {
     private final History<Galaxy, GalaxyState> history = new History<>();
-    public HashMap<Entity, ArrayList<Entity>> collisions = new HashMap<>();
     public CollisionChecker collisionChecker = new NaiveCollisionChecker(this);
     private List<Entity> entities = new ArrayList<>();
     private List<Entity> removeEntityList = new ArrayList<>();
@@ -34,12 +33,10 @@ public class Galaxy implements Restorable<GalaxyState> {
 
     public void addEntity(Entity entity) {
         addEntityList.add(entity);
-        collisions.put(entity, new ArrayList<>());
     }
 
     public void removeEntity(Entity entity) {
         removeEntityList.add(entity);
-        collisions.remove(entity);
     }
 
     public List<Entity> getEntities() {
@@ -80,11 +77,10 @@ public class Galaxy implements Restorable<GalaxyState> {
     }
 
     public GalaxyState serializableState() {
-        return new GalaxyState(collisions, entities, addEntityList, removeEntityList);
+        return new GalaxyState(entities, addEntityList, removeEntityList);
     }
 
     public void restore(GalaxyState state) {
-        collisions = state.collisions();
         entities = state.entities();
         addEntityList = state.addEntityList();
         removeEntityList = state.removeEntityList();

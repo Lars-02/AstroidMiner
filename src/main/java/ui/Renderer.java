@@ -173,10 +173,10 @@ public class Renderer {
 
         for (Entity entity : galaxyEntities) {
             gc.setFill(entity.color.getFXColor());
-            gc.fillOval(entity.position.x - entity.getRadius(), entity.position.y - entity.getRadius(), entity.getRadius() * 2, entity.getRadius() * 2);
+            gc.fillOval(entity.position.x - entity.radius, entity.position.y - entity.radius, entity.radius * 2, entity.radius * 2);
 
             if (entity instanceof Planet planet)
-                gc.fillText(planet.name, entity.position.x, entity.position.y - planet.getRadius() - 2);
+                gc.fillText(planet.name, entity.position.x, entity.position.y - planet.radius - 2);
         }
 
         gc.fillText("Multiplier: " + deltaMultiplier, (double) ScreenWidth / 2, 20);

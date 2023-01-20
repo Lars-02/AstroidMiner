@@ -1,16 +1,15 @@
 package factories;
 
 import enums.OnCollision;
-import models.Color;
-import models.Asteroid;
-import models.Entity;
-import models.Planet;
+import models.*;
 import states.behaviourrules.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EntityFactory {
+
+    private Galaxy galaxy;
     private final double x;
     private final double y;
     private final double velocityX;

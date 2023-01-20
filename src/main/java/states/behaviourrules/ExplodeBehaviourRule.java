@@ -28,7 +28,6 @@ public class ExplodeBehaviourRule extends BehaviourRule {
             asteroid.addBehaviourRule(new BounceBehaviourRule(asteroid));
             galaxy.addEntity(asteroid);
         }
-        entity.removeBehaviourRule(this);
         galaxy.removeEntity(entity);
     }
 

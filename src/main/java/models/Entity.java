@@ -18,8 +18,8 @@ public abstract class Entity implements Serializable {
     public Vector2d position;
     public Color color;
 
-    private int radius;
     public Vector2d velocity;
+    public int radius;
     private final List<Entity> collidingEntities = new ArrayList<>();
     private final List<BehaviourRule> behaviourRules = new ArrayList<>();
 
@@ -28,31 +28,46 @@ public abstract class Entity implements Serializable {
 
         if (collidedWithLeft() || collidedWithRight()) {
             velocity.x *= -1;
-            position.x = collidedWithLeft() ? getRadius() : Renderer.ScreenWidth - getRadius();
+            position.x = collidedWithLeft() ? radius : Renderer.ScreenWidth - radius;
         }
 
         if (collidedWithTop() || collidedWithBottom()) {
             velocity.y *= -1;
-            position.y = collidedWithTop() ? getRadius() : Renderer.ScreenHeight - getRadius();
+            position.y = collidedWithTop() ? radius : Renderer.ScreenHeight - radius;
         }
+    }
+
+    public boolean collidedWith(Entity entity) {
+        return collidingEntities.contains(entity);
     }
 
     public boolean isColliding() {
         return !collidingEntities.isEmpty();
     }
 
-    public void onCollision(Galaxy galaxy, Entity entity) {
-        collidingEntities.add(entity);
-        List.copyOf(behaviourRules).forEach(br -> br.onCollisionEntry(galaxy));
-    }
+    public void checkForCollisionsOn(Galaxy galaxy, List<Entity> entities) {
+        for (var entity : entities) {
+            if (entity == this)
+                continue;
 
-    public void onExitCollision(Galaxy galaxy, Entity entity) {
-        collidingEntities.remove(entity);
-        List.copyOf(behaviourRules).forEach(br -> br.onCollisionExit(galaxy));
-    }
+            if (!isCollidingWith(entity))
+                continue;
 
-    public int getRadius() {
-        return radius;
+            if (collidedWith(entity))
+                continue;
+
+            collidingEntities.add(entity);
+            List.copyOf(behaviourRules).forEach(br -> br.onCollisionEntry(galaxy));
+        }
+
+        // Check for exit collisions
+        for (Entity collider : List.copyOf(collidingEntities)) {
+            if (isCollidingWith(collider) && galaxy.getEntities().stream().anyMatch(entity -> entity == collider))
+                continue;
+
+            collidingEntities.remove(collider);
+            List.copyOf(behaviourRules).forEach(br -> br.onCollisionExit(galaxy));
+        }
     }
 
     public void addBehaviourRule(BehaviourRule state) {
@@ -66,27 +81,23 @@ public abstract class Entity implements Serializable {
         behaviourRules.remove(state);
     }
 
-    public void setRadius(int radius) {
-        this.radius = radius;
-    }
-
     private boolean collidedWithLeft() {
-        return position.x - getRadius() < 0;
+        return position.x - radius < 0;
     }
 
     private boolean collidedWithRight() {
-        return position.x + getRadius() > Renderer.ScreenWidth;
+        return position.x + radius > Renderer.ScreenWidth;
     }
 
     private boolean collidedWithTop() {
-        return position.y - getRadius() < 0;
+        return position.y - radius < 0;
     }
 
     private boolean collidedWithBottom() {
-        return position.y + getRadius() > Renderer.ScreenHeight;
+        return position.y + radius > Renderer.ScreenHeight;
     }
 
-    public boolean collidedWithEntity(Entity otherEntity) {
-        return position.dist(otherEntity.position) <= (getRadius() + otherEntity.getRadius());
+    public boolean isCollidingWith(Entity otherEntity) {
+        return position.dist(otherEntity.position) <= (radius + otherEntity.radius);
     }
 }
