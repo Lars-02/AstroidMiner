@@ -62,14 +62,4 @@ public class GalaxyLoaderRenderer extends SceneRenderer {
     public Scene getScene() {
         return scene;
     }
-
-    @Override
-    public void activate() {
-
-    }
-
-    @Override
-    public void deactivate() {
-
-    }
 }
