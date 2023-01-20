@@ -57,7 +57,8 @@ public class GameRenderer extends SceneRenderer {
                 Map.entry(KeyCode.A, new AddAsteroidCommand(game)),
                 Map.entry(KeyCode.R, new RemoveAsteroidCommand(game)),
                 Map.entry(KeyCode.SPACE, new TogglePauseCommand(game)),
-                Map.entry(KeyCode.O, new GalaxySelectorCommand(game))
+                Map.entry(KeyCode.O, new GalaxySelectorCommand(game)),
+                Map.entry(KeyCode.H, new RenderHudCommand(game, this))
         ));
 
         this.canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
