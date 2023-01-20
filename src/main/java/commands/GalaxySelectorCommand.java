@@ -7,7 +7,7 @@ import static main.FlatGalaxySociety.deltaMultiplier;
 
 public class GalaxySelectorCommand extends Command {
     public GalaxySelectorCommand(FlatGalaxySociety game) {
-        super(game, "Speed up");
+        super(game, "Load Other Galaxy");
     }
 
     @Override
