@@ -1,16 +1,18 @@
 package commands;
 
-import models.Galaxy;
-
-import static ui.Renderer.RenderQuadtree;
+import main.FlatGalaxySociety ;
+import ui.scenerenderers.GameRenderer;
 
 public class RenderQuadtreeCommand extends Command {
-    public RenderQuadtreeCommand(Galaxy galaxy) {
-        super(galaxy, "Render Quadtree");
+    private final GameRenderer galaxyRenderer;
+
+    public RenderQuadtreeCommand(FlatGalaxySociety game, GameRenderer galaxyRenderer) {
+        super(game, "Render Quadtree");
+        this.galaxyRenderer = galaxyRenderer;
     }
 
     @Override
     public void execute() {
-        RenderQuadtree = !RenderQuadtree;
+        galaxyRenderer.shouldRenderQuadtree = !galaxyRenderer.shouldRenderQuadtree;
     }
 }

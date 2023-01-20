@@ -1,15 +1,14 @@
 package commands;
 
-import main.FlatGalaxySociety;
-import models.Galaxy;
+import main.FlatGalaxySociety ;
 
 public class ResumeCommand extends Command {
-    public ResumeCommand(Galaxy galaxy) {
-        super(galaxy, "Resume");
+    public ResumeCommand(FlatGalaxySociety game) {
+        super(game, "Resume");
     }
 
     @Override
     public void execute() {
-        FlatGalaxySociety.isPaused = false;
+        game.galaxy.isPaused = false;
     }
 }

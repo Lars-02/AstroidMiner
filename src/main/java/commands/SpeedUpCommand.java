@@ -1,12 +1,12 @@
 package commands;
 
-import models.Galaxy;
+import main.FlatGalaxySociety ;
 
 import static main.FlatGalaxySociety.deltaMultiplier;
 
 public class SpeedUpCommand extends Command {
-    public SpeedUpCommand(Galaxy galaxy) {
-        super(galaxy, "Speed up");
+    public SpeedUpCommand(FlatGalaxySociety game) {
+        super(game, "Speed up");
     }
 
     @Override

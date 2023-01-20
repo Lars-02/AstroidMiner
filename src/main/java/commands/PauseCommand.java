@@ -1,16 +1,14 @@
 package commands;
 
-import models.Galaxy;
-
-import static main.FlatGalaxySociety.isPaused;
+import main.FlatGalaxySociety ;
 
 public class PauseCommand extends Command {
-    public PauseCommand(Galaxy galaxy) {
-        super(galaxy, "Pause");
+    public PauseCommand(FlatGalaxySociety game) {
+        super(game, "Pause");
     }
 
     @Override
     public void execute() {
-        isPaused = true;
+        game.galaxy.isPaused = true;
     }
 }

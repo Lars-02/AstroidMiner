@@ -1,13 +1,13 @@
 package commands;
 
-import models.Galaxy;
+import main.FlatGalaxySociety ;
 
 public abstract class Command {
     public final String name;
-    public Galaxy galaxy;
+    public FlatGalaxySociety game;
 
-    Command(Galaxy galaxy, String name) {
-        this.galaxy = galaxy;
+    Command(FlatGalaxySociety game, String name) {
+        this.game = game;
         this.name = name;
     }
 

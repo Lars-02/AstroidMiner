@@ -1,20 +1,20 @@
 package commands;
 
-import models.Galaxy;
+import main.FlatGalaxySociety ;
 import states.collosionchecks.NaiveCollisionChecker;
 import states.collosionchecks.QuadCollisionChecker;
 
 public class SwitchCollosionModeCommand extends Command {
-    public SwitchCollosionModeCommand(Galaxy galaxy) {
-        super(galaxy, "Collision Mode");
+    public SwitchCollosionModeCommand(FlatGalaxySociety game) {
+        super(game, "Collision Mode");
     }
 
     @Override
     public void execute() {
-        if (galaxy.collisionChecker instanceof NaiveCollisionChecker) {
-            galaxy.collisionChecker = new QuadCollisionChecker(galaxy);
+        if (game.galaxy.collisionChecker instanceof NaiveCollisionChecker) {
+            game.galaxy.collisionChecker = new QuadCollisionChecker(game.galaxy);
             return;
         }
-        galaxy.collisionChecker = new NaiveCollisionChecker(galaxy);
+        game.galaxy.collisionChecker = new NaiveCollisionChecker(game.galaxy);
     }
 }
