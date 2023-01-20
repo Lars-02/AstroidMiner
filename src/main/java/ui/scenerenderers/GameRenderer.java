@@ -11,15 +11,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import main.FlatGalaxySociety;
-import models.Entity;
-import models.Planet;
+import models.priority.Priority;
+import models.priority.PriorityList;
 import ui.Renderer;
+import ui.featuerenderers.EntityRenderer;
 import ui.featuerenderers.FeatureRenderer;
+import ui.featuerenderers.HudRenderer;
+import ui.featuerenderers.PlanetConnectionRenderer;
 import ui.model.Config;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static main.FlatGalaxySociety.deltaMultiplier;
@@ -29,7 +30,7 @@ import static ui.model.Config.SCREEN_WIDTH;
 public class GameRenderer extends SceneRenderer {
     private static final Font font = Font.font("Arial", 14);
 
-    public final List<FeatureRenderer> featureRenderers = new ArrayList<>();
+    public final PriorityList<FeatureRenderer> featureRenderers = new PriorityList<>();
 
     private final UpdateRunnable updateRunnable;
     private final Scene scene;
@@ -76,6 +77,10 @@ public class GameRenderer extends SceneRenderer {
                 renderer.setSceneRenderer(new KeybindingsRenderer(renderer, this, keybindings));
             }
         });
+
+        featureRenderers.add(new PlanetConnectionRenderer(game.galaxy), Priority.NORMAL);
+        featureRenderers.add(new EntityRenderer(game.galaxy), Priority.NORMAL);
+        featureRenderers.add(new HudRenderer(game.galaxy), Priority.LOWEST);
     }
 
     @Override
@@ -96,43 +101,9 @@ public class GameRenderer extends SceneRenderer {
     }
 
     public void render() {
-        var entities = game.galaxy.getEntities();
-
-        // Clear screen;
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         featureRenderers.forEach(fr -> fr.render(gc));
-
-        // Draw planet connections
-        for (Entity entity : entities) {
-            if (entity instanceof Planet planet) {
-                List<Planet> connections = new ArrayList<>();
-                for (Planet neighbour : planet.getNeighbours()) {
-                    if (connections.stream().anyMatch(connection -> entity == connection))
-                        continue;
-                    connections.add(neighbour);
-                    gc.strokeLine(entity.position.x, entity.position.y, neighbour.position.x, neighbour.position.y);
-                }
-            }
-        }
-
-        // Draw planets
-        for (Entity entity : entities) {
-            gc.setFill(entity.color.getFXColor());
-            gc.fillOval(entity.position.x - entity.radius, entity.position.y - entity.radius, entity.radius * 2, entity.radius * 2);
-
-
-            gc.setTextAlign(TextAlignment.CENTER);
-            if (entity instanceof Planet planet)
-                gc.fillText(planet.name, entity.position.x, entity.position.y - planet.radius - 2);
-        }
-
-        // Print HUD
-        gc.setTextAlign(TextAlignment.LEFT);
-        gc.setFill(Color.BLACK);
-        gc.fillText("Multiplier: " + deltaMultiplier, 20, 20);
-        gc.fillText("Collision Mode: " + game.galaxy.collisionChecker.name, 20, 40);
-        gc.fillText("Entities: " + game.galaxy.numberOfEntities(), 20, 60);
     }
 
     private class UpdateRunnable implements Runnable {
