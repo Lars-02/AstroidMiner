@@ -80,7 +80,7 @@ public class GameRenderer extends SceneRenderer {
 
         featureRenderers.add(new PlanetConnectionRenderer(game.galaxy), Priority.NORMAL);
         featureRenderers.add(new EntityRenderer(game.galaxy), Priority.NORMAL);
-        featureRenderers.add(new HudRenderer(game.galaxy), Priority.LOWEST);
+        featureRenderers.add(new HudRenderer(game.galaxy), Priority.HIGHEST);
     }
 
     @Override
