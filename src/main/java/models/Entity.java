@@ -1,7 +1,7 @@
 package models;
 
 import states.behaviourrules.BehaviourRule;
-import ui.Renderer;
+import ui.model.Config;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,12 +26,12 @@ public abstract class Entity implements Serializable {
 
         if (collidedWithLeft() || collidedWithRight()) {
             velocity.x *= -1;
-            position.x = collidedWithLeft() ? radius : Renderer.ScreenWidth - radius;
+            position.x = collidedWithLeft() ? radius : Config.SCREEN_WIDTH - radius;
         }
 
         if (collidedWithTop() || collidedWithBottom()) {
             velocity.y *= -1;
-            position.y = collidedWithTop() ? radius : Renderer.ScreenHeight - radius;
+            position.y = collidedWithTop() ? radius : Config.SCREEN_HEIGHT - radius;
         }
     }
 
@@ -84,7 +84,7 @@ public abstract class Entity implements Serializable {
     }
 
     private boolean collidedWithRight() {
-        return position.x + radius > Renderer.ScreenWidth;
+        return position.x + radius > Config.SCREEN_WIDTH;
     }
 
     private boolean collidedWithTop() {
@@ -92,7 +92,7 @@ public abstract class Entity implements Serializable {
     }
 
     private boolean collidedWithBottom() {
-        return position.y + radius > Renderer.ScreenHeight;
+        return position.y + radius > Config.SCREEN_HEIGHT;
     }
 
     public boolean isCollidingWith(Entity otherEntity) {

@@ -1,14 +1,14 @@
 package commands;
 
-import models.Galaxy;
+import main.FlatGalaxySociety ;
 
 public class NextBookmarkCommand extends Command {
-    public NextBookmarkCommand(Galaxy galaxy) {
-        super(galaxy, "Next Bookmark");
+    public NextBookmarkCommand(FlatGalaxySociety game) {
+        super(game, "Next Bookmark");
     }
 
     @Override
     public void execute() {
-        galaxy.redo();
+        game.galaxy.redo();
     }
 }

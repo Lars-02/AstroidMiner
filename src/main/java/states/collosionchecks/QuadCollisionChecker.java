@@ -4,7 +4,7 @@ import models.Entity;
 import models.Galaxy;
 import models.Vector2d;
 import quadtree.Quad;
-import ui.Renderer;
+import ui.model.Config;
 
 public class QuadCollisionChecker extends CollisionChecker {
 
@@ -16,7 +16,7 @@ public class QuadCollisionChecker extends CollisionChecker {
 
     @Override
     public void checkCollisions() {
-        quadtree = new Quad(galaxy.getEntities(), new Vector2d(0, 0), new Vector2d(Renderer.ScreenWidth, Renderer.ScreenHeight));
+        quadtree = new Quad(galaxy.getEntities(), new Vector2d(0, 0), new Vector2d(Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT));
         checkCollisionsInQuad(quadtree);
     }
 
