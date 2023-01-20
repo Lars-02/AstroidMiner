@@ -7,6 +7,7 @@ import memento.Memento;
 import memento.Restorable;
 import states.collosionchecks.CollisionChecker;
 import states.collosionchecks.NaiveCollisionChecker;
+import states.collosionchecks.QuadCollisionChecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,17 +16,20 @@ import java.util.Map;
 
 public class Galaxy implements Restorable<GalaxyState> {
     private final History<Galaxy, GalaxyState> history = new History<>();
-    public CollisionChecker collisionChecker = new NaiveCollisionChecker(this);
-    public List<Entity> entities = new ArrayList<>();
-    public Map<Command, KeyCode> commandKeyMap = new HashMap<>(Map.of(
-            new SpeedUpCommand(this), KeyCode.EQUALS,
-            new SlowDownCommand(this), KeyCode.MINUS,
-            new PauseCommand(this), KeyCode.P,
-            new ResumeCommand(this), KeyCode.SPACE,
-            new QuadtreeCommand(this), KeyCode.Q,
-            new PreviousBookmarkCommand(this), KeyCode.LEFT,
-            new NextBookmarkCommand(this), KeyCode.RIGHT,
-            new SwitchCollosionModeCommand(this), KeyCode.C
+    public CollisionChecker collisionChecker = new QuadCollisionChecker(this);
+    private List<Entity> entities = new ArrayList<>();
+    public Map<Command, KeyCode> commandKeyMap = new HashMap<>(Map.ofEntries(
+            Map.entry(new SpeedUpCommand(this), KeyCode.EQUALS),
+            Map.entry(new SlowDownCommand(this), KeyCode.MINUS),
+            Map.entry(new PauseCommand(this), KeyCode.P),
+            Map.entry(new ResumeCommand(this), KeyCode.ENTER),
+            Map.entry(new RenderQuadtreeCommand(this), KeyCode.Q),
+            Map.entry(new PreviousBookmarkCommand(this), KeyCode.LEFT),
+            Map.entry(new NextBookmarkCommand(this), KeyCode.RIGHT),
+            Map.entry(new SwitchCollosionModeCommand(this), KeyCode.C),
+            Map.entry(new AddAsteroidCommand(this), KeyCode.A),
+            Map.entry(new RemoveAsteroidCommand(this), KeyCode.R),
+            Map.entry(new TogglePauseCommand(this), KeyCode.SPACE)
     ));
 
     public void addEntity(Entity entity) {
@@ -44,7 +48,7 @@ public class Galaxy implements Restorable<GalaxyState> {
 
     public void tick(long delta) {
         // Translate entities
-        for (var entity : entities) {
+        for (var entity : getEntities()) {
             entity.translate(delta);
         }
 
@@ -64,10 +68,15 @@ public class Galaxy implements Restorable<GalaxyState> {
     }
 
     public GalaxyState serializableState() {
-        return new GalaxyState(entities);
+        return new GalaxyState(getEntities());
     }
 
     public void restore(GalaxyState state) {
         entities = state.entities();
+    }
+
+
+    public int numberOfEntities() {
+        return entities.size();
     }
 }
