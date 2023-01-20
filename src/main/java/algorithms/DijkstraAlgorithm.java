@@ -26,15 +26,10 @@ public class DijkstraAlgorithm extends PathfindingAlgorithm {
         while (!queue.isEmpty()) {
             Planet current = queue.poll();
             if (current == target) {
-                List<Planet> path = new ArrayList<>();
-                while (current != null) {
-                    path.add(0, current);
-                    current = parent.get(current);
-                }
-                return path;
+                return getPathFrom(current, parent);
             }
             for (Planet neighbour : current.getNeighbours()) {
-                double newDistance = distance.get(current) + 1;
+                double newDistance = distance.get(current) + current.position.dist(neighbour.position);
                 if (newDistance < distance.get(neighbour)) {
                     distance.put(neighbour, newDistance);
                     parent.put(neighbour, current);
@@ -45,7 +40,7 @@ public class DijkstraAlgorithm extends PathfindingAlgorithm {
         return null;
     }
 
-    private class PlanetComparator implements Comparator<Planet> {
+    private static class PlanetComparator implements Comparator<Planet> {
         Map<Planet, Double> distance;
 
         public PlanetComparator(Map<Planet, Double> distance) {
