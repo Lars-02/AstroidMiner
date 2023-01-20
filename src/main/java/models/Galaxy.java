@@ -2,7 +2,6 @@ package models;
 
 import algorithms.BreadthFirstSearchAlgorithm;
 import algorithms.PathfindingAlgorithm;
-import javafx.util.Pair;
 import memento.History;
 import memento.Memento;
 import memento.Restorable;
@@ -50,7 +49,7 @@ public class Galaxy implements Restorable<GalaxyState> {
 
         var biggestPlanets = getTwoBiggestPlanets();
 
-        pathfindingAlgorithm.setPath(getPlanets(), biggestPlanets.getKey(), biggestPlanets.getValue());
+        pathfindingAlgorithm.setPath(getPlanets(), biggestPlanets.left(), biggestPlanets.right());
     }
 
     public void undo() {
@@ -82,12 +81,12 @@ public class Galaxy implements Restorable<GalaxyState> {
         Pair<Planet, Planet> planetPair = new Pair<>(null, null);
         for (var entity : entities) {
             if (entity instanceof Planet planet) {
-                if (planetPair.getKey() == null || planetPair.getKey().radius < planet.radius) {
-                    planetPair = new Pair<>(planet, planetPair.getValue());
+                if (planetPair.left() == null || planetPair.left().radius < planet.radius) {
+                    planetPair = new Pair<>(planet, planetPair.right());
                     continue;
                 }
-                if (planetPair.getValue() == null || planetPair.getValue().radius < planet.radius) {
-                    planetPair = new Pair<>(planetPair.getKey(), planet);
+                if (planetPair.right() == null || planetPair.right().radius < planet.radius) {
+                    planetPair = new Pair<>(planetPair.left(), planet);
                 }
             }
         }
