@@ -47,6 +47,10 @@ public class Galaxy implements Restorable<GalaxyState> {
 
         collisionChecker.checkCollisions();
 
+        calculatePath();
+    }
+
+    private void calculatePath() {
         var biggestPlanets = getTwoBiggestPlanets();
 
         pathfindingAlgorithm.setPath(getPlanets(), biggestPlanets.left(), biggestPlanets.right());
@@ -54,10 +58,12 @@ public class Galaxy implements Restorable<GalaxyState> {
 
     public void undo() {
         history.undo();
+        calculatePath();
     }
 
     public void redo() {
         history.redo();
+        calculatePath();
     }
 
     public void save() {
