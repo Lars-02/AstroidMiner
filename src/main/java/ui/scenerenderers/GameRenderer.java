@@ -137,6 +137,7 @@ public class GameRenderer extends SceneRenderer {
 
         // Print HUD
         gc.setTextAlign(TextAlignment.LEFT);
+        gc.setFill(Color.BLACK);
         gc.fillText("Multiplier: " + deltaMultiplier, 20, 20);
         gc.fillText("Collision Mode: " + game.galaxy.collisionChecker.name, 20, 40);
         gc.fillText("Entities: " + game.galaxy.numberOfEntities(), 20, 60);
