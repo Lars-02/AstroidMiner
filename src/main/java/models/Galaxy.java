@@ -70,7 +70,7 @@ public class Galaxy implements Restorable<GalaxyState> {
     }
 
     public void restore(GalaxyState state) {
-        entities = state.entities();
+        entities = new ArrayList<>(state.entities());
     }
 
 
