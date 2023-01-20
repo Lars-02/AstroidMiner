@@ -93,4 +93,12 @@ public class Galaxy implements Restorable<GalaxyState> {
         }
         return planetPair;
     }
+
+    public int historySize() {
+        return history.size();
+    }
+
+    public int historyStep() {
+        return history.virtualSize();
+    }
 }

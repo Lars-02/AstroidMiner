@@ -49,4 +49,12 @@ public class History<T extends Restorable<S>, S extends Serializable> {
         virtualSize = Math.min(history.size(), virtualSize + 1);
         return history.get(virtualSize - 1);
     }
+
+    public int size() {
+        return history.size();
+    }
+
+    public int virtualSize() {
+        return virtualSize;
+    }
 }
