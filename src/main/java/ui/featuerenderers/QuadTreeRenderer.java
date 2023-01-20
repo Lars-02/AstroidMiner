@@ -17,8 +17,10 @@ public class QuadTreeRenderer implements FeatureRenderer {
     public void render(GraphicsContext gc) {
         if (galaxy.collisionChecker instanceof QuadCollisionChecker quadCollision) {
             gc.setStroke(Color.GREEN);
+            gc.setFill(Color.GREEN);
             renderQuadtree(gc, quadCollision.quadtree);
             gc.setStroke(Color.BLACK);
+            gc.setFill(Color.BLACK);
             gc.setLineWidth(1);
         }
     }
@@ -29,6 +31,9 @@ public class QuadTreeRenderer implements FeatureRenderer {
 
         gc.setLineWidth((double) 8 / (quadtree.getDepth() + 1));
         gc.strokeRect(quadtree.topLeftBoundary.x, quadtree.topLeftBoundary.y, quadtree.bottomRightBoundary.x - quadtree.topLeftBoundary.x, quadtree.bottomRightBoundary.y - quadtree.topLeftBoundary.y);
+        var numberOfEntities = quadtree.getEntities().size();
+        if (numberOfEntities > 0)
+            gc.fillText(String.valueOf(numberOfEntities), quadtree.topLeftBoundary.x + 10, quadtree.topLeftBoundary.y + 20);
 
         renderQuadtree(gc, quadtree.getTopLeft());
         renderQuadtree(gc, quadtree.getTopRight());
