@@ -19,6 +19,6 @@ public class RenderQuadtreeCommand extends Command {
         if (existingQuadTreeRenderer.isPresent())
             galaxyRenderer.featureRenderers.remove(existingQuadTreeRenderer.get());
         else
-            galaxyRenderer.featureRenderers.add(new QuadTreeRenderer(game));
+            galaxyRenderer.featureRenderers.add(new QuadTreeRenderer(game.galaxy));
     }
 }

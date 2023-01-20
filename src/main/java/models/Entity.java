@@ -14,7 +14,8 @@ public abstract class Entity implements Serializable {
     public Color color;
     public Vector2d velocity;
     public int radius;
-    Entity(double x, double y, double velocityX, double velocityY, int radius, Color color) {
+
+    protected Entity(double x, double y, double velocityX, double velocityY, int radius, Color color) {
         this.position = new Vector2d(x, y);
         this.velocity = new Vector2d(velocityX, velocityY);
         this.radius = radius;

@@ -2,20 +2,20 @@ package ui.featuerenderers;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import main.FlatGalaxySociety;
+import models.Galaxy;
 import quadtree.Quad;
 import states.collosionchecks.QuadCollisionChecker;
 
 public class QuadTreeRenderer implements FeatureRenderer {
-    private final FlatGalaxySociety game;
+    private final Galaxy galaxy;
 
-    public QuadTreeRenderer(FlatGalaxySociety game) {
-        this.game = game;
+    public QuadTreeRenderer(Galaxy galaxy) {
+        this.galaxy = galaxy;
     }
 
     @Override
     public void render(GraphicsContext gc) {
-        if (game.galaxy.collisionChecker instanceof QuadCollisionChecker quadCollision) {
+        if (galaxy.collisionChecker instanceof QuadCollisionChecker quadCollision) {
             gc.setStroke(Color.GREEN);
             renderQuadtree(gc, quadCollision.quadtree);
             gc.setStroke(Color.BLACK);
