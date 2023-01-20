@@ -8,7 +8,7 @@ import java.util.List;
 public class NaiveCollisionChecker extends CollisionChecker {
 
     public NaiveCollisionChecker(Galaxy galaxy) {
-        super(galaxy);
+        super("Naive", galaxy);
     }
 
     @Override

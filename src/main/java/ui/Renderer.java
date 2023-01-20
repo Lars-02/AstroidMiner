@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import models.Entity;
 import models.Galaxy;
 import models.Planet;
+import quadtree.Quad;
+import states.collosionchecks.QuadCollisionChecker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +29,10 @@ public class Renderer {
 
     public static final int ScreenWidth = 800;
     public static final int ScreenHeight = 600;
+    public static final boolean RenderQuadtree = true;
 
     private static final Font menuFont = Font.font("Arial", 18);
     private static final Font galaxyFont = Font.font("Arial", 14);
-
     private final Galaxy galaxy;
     private final Stage stage;
     private final Canvas canvas;
@@ -155,11 +157,22 @@ public class Renderer {
     }
 
     public void renderGalaxy() {
-        var galaxyEntities = new ArrayList<>(galaxy.getEntities());
+        // Set entities
+        var entities = galaxy.getEntities();
 
+        // Clear screen;
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        for (Entity entity : galaxyEntities) {
+        // Render quad
+        if (RenderQuadtree && galaxy.collisionChecker instanceof QuadCollisionChecker quadCollision) {
+            gc.setStroke(Color.GREEN);
+            renderQuadtree(quadCollision.quadtree);
+            gc.setStroke(Color.BLACK);
+            gc.setLineWidth(1);
+        }
+
+        // Draw planet connections
+        for (Entity entity : entities) {
             if (entity instanceof Planet planet) {
                 List<Planet> connections = new ArrayList<>();
                 for (Planet neighbour : planet.getNeighbours()) {
@@ -171,14 +184,31 @@ public class Renderer {
             }
         }
 
-        for (Entity entity : galaxyEntities) {
+        // Draw planets
+        for (Entity entity : entities) {
             gc.setFill(entity.color.getFXColor());
             gc.fillOval(entity.position.x - entity.radius, entity.position.y - entity.radius, entity.radius * 2, entity.radius * 2);
 
+
+            gc.setTextAlign(TextAlignment.CENTER);
             if (entity instanceof Planet planet)
                 gc.fillText(planet.name, entity.position.x, entity.position.y - planet.radius - 2);
         }
 
-        gc.fillText("Multiplier: " + deltaMultiplier, (double) ScreenWidth / 2, 20);
+        // Print HUD
+        gc.setTextAlign(TextAlignment.LEFT);
+        gc.fillText("Multiplier: " + deltaMultiplier, 20, 20);
+        gc.fillText("Collision Mode: " + galaxy.collisionChecker.name, 20, 40);
+    }
+
+    private void renderQuadtree(Quad quadtree) {
+        if (quadtree == null)
+            return;
+        gc.setLineWidth((double) 8 / (quadtree.getDepth() + 1));
+        gc.strokeRect(quadtree.topLeftBoundary.x, quadtree.topLeftBoundary.y, quadtree.bottomRightBoundary.x - quadtree.topLeftBoundary.x, quadtree.bottomRightBoundary.y - quadtree.topLeftBoundary.y);
+        renderQuadtree(quadtree.getTopLeft());
+        renderQuadtree(quadtree.getTopRight());
+        renderQuadtree(quadtree.getBottomLeft());
+        renderQuadtree(quadtree.getBottomRight());
     }
 }

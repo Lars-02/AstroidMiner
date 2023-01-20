@@ -3,11 +3,12 @@ package quadtree;
 import models.Entity;
 import models.Vector2d;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Quad {
 
-    public static int TreeDepth = 4;
+    public static int TreeDepth = 6;
     public static int NodeCapacity = 4;
 
     public Quad(List<Entity> entities, Vector2d topLeftBoundary, Vector2d bottomRightBoundary) {
@@ -17,16 +18,19 @@ public class Quad {
         subdivide();
     }
 
-    private Quad(Vector2d topLeftBoundary, Vector2d bottomRightBoundary) {
+    private Quad(Vector2d topLeftBoundary, Vector2d bottomRightBoundary, int depth) {
+        this.depth = depth;
         this.topLeftBoundary = topLeftBoundary;
         this.bottomRightBoundary = bottomRightBoundary;
     }
 
-    public boolean addEntity(Entity entity) {
+    public void addEntity(Entity entity) {
         // Check if the entity is within the boundaries of this quad
-        if (!(entity.position.x >= topLeftBoundary.x) || !(entity.position.x <= bottomRightBoundary.x) ||
-                !(entity.position.y >= topLeftBoundary.y) || !(entity.position.y <= bottomRightBoundary.y)) {
-            return false;
+        if (!(entity.position.x + entity.radius >= topLeftBoundary.x) ||
+                !(entity.position.x - entity.radius <= bottomRightBoundary.x) ||
+                !(entity.position.y + entity.radius >= topLeftBoundary.y) ||
+                !(entity.position.y - entity.radius <= bottomRightBoundary.y)) {
+            return;
         }
         // If this quad has no subdivisions, add the entity to the entities list
         if (topLeft == null) {
@@ -35,7 +39,7 @@ public class Quad {
             if (entities.size() > NodeCapacity) {
                 subdivide();
             }
-            return true;
+            return;
         }
         // If this quad has subdivisions, add the entity to the appropriate quad
         topLeft.addEntity(entity);
@@ -43,12 +47,11 @@ public class Quad {
         bottomLeft.addEntity(entity);
         bottomRight.addEntity(entity);
 
-        return true;
     }
 
-    private List<Entity> entities;
-    private final Vector2d topLeftBoundary;
-    private final Vector2d bottomRightBoundary;
+    private List<Entity> entities = new ArrayList<>();
+    public final Vector2d topLeftBoundary;
+    public final Vector2d bottomRightBoundary;
 
     private Quad topLeft;
     private Quad topRight;
@@ -66,31 +69,38 @@ public class Quad {
         double centerY = (topLeftBoundary.y + bottomRightBoundary.y) / 2;
 
         // Create the four subdivisions
-        topLeft = new Quad(topLeftBoundary, new Vector2d(centerX, centerY));
-        topRight = new Quad(new Vector2d(centerX, topLeftBoundary.y), new Vector2d(bottomRightBoundary.x, centerY));
-        bottomLeft = new Quad(new Vector2d(topLeftBoundary.x, centerY), new Vector2d(centerX, bottomRightBoundary.y));
-        bottomRight = new Quad(new Vector2d(centerX, centerY), bottomRightBoundary);
+        topLeft = new Quad(topLeftBoundary, new Vector2d(centerX, centerY), depth + 1);
+        topRight = new Quad(new Vector2d(centerX, topLeftBoundary.y), new Vector2d(bottomRightBoundary.x, centerY), depth + 1);
+        bottomLeft = new Quad(new Vector2d(topLeftBoundary.x, centerY), new Vector2d(centerX, bottomRightBoundary.y), depth + 1);
+        bottomRight = new Quad(new Vector2d(centerX, centerY), bottomRightBoundary, depth + 1);
 
         // Move entities from the parent quad to the appropriate subdivisions
         for (Entity entity : entities) {
-            if (topLeft.addEntity(entity)) {
-                entities.remove(entity);
-            }
-            if (topRight.addEntity(entity)) {
-                entities.remove(entity);
-            }
-            if (bottomLeft.addEntity(entity)) {
-                entities.remove(entity);
-            }
-            if (bottomRight.addEntity(entity)) {
-                entities.remove(entity);
-            }
+            topLeft.addEntity(entity);
+            topRight.addEntity(entity);
+            bottomLeft.addEntity(entity);
+            bottomRight.addEntity(entity);
         }
+        entities = new ArrayList<>();
+    }
 
-        // Increase the depth of the subdivisions
-        topLeft.depth = depth + 1;
-        topRight.depth = depth + 1;
-        bottomLeft.depth = depth + 1;
-        bottomRight.depth = depth + 1;
+    public int getDepth() {
+        return depth;
+    }
+
+    public Quad getTopLeft() {
+        return topLeft;
+    }
+
+    public Quad getTopRight() {
+        return topRight;
+    }
+
+    public Quad getBottomLeft() {
+        return bottomLeft;
+    }
+
+    public Quad getBottomRight() {
+        return bottomRight;
     }
 }
