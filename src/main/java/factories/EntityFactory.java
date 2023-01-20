@@ -9,7 +9,6 @@ import java.util.List;
 
 public class EntityFactory {
 
-    private Galaxy galaxy;
     private final double x;
     private final double y;
     private final double velocityX;
@@ -17,6 +16,7 @@ public class EntityFactory {
     private final int radius;
     private final Color color;
     private final List<OnCollision> onCollisions = new ArrayList<>();
+    private Galaxy galaxy;
 
     public EntityFactory(double x, double y, double velocityX, double velocityY, int radius, Color color) {
         this.x = x;

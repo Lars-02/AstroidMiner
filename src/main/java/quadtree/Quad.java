@@ -10,14 +10,20 @@ public class Quad {
 
     public static int TreeDepth = 6;
     public static int NodeCapacity = 4;
-
+    public final Vector2d topLeftBoundary;
+    public final Vector2d bottomRightBoundary;
+    private List<Entity> entities = new ArrayList<>();
+    private Quad topLeft;
+    private Quad topRight;
+    private Quad bottomLeft;
+    private Quad bottomRight;
+    private int depth = 0;
     public Quad(List<Entity> entities, Vector2d topLeftBoundary, Vector2d bottomRightBoundary) {
         this.entities = entities;
         this.topLeftBoundary = topLeftBoundary;
         this.bottomRightBoundary = bottomRightBoundary;
         subdivide();
     }
-
     private Quad(Vector2d topLeftBoundary, Vector2d bottomRightBoundary, int depth) {
         this.depth = depth;
         this.topLeftBoundary = topLeftBoundary;
@@ -48,16 +54,6 @@ public class Quad {
         bottomRight.addEntity(entity);
 
     }
-
-    private List<Entity> entities = new ArrayList<>();
-    public final Vector2d topLeftBoundary;
-    public final Vector2d bottomRightBoundary;
-
-    private Quad topLeft;
-    private Quad topRight;
-    private Quad bottomLeft;
-    private Quad bottomRight;
-    private int depth = 0;
 
     private void subdivide() {
         // Check if the current depth is equal to the maximum depth

@@ -1,6 +1,5 @@
 package commands;
 
-import main.FlatGalaxySociety;
 import models.Galaxy;
 import states.collosionchecks.NaiveCollisionChecker;
 import states.collosionchecks.QuadCollisionChecker;

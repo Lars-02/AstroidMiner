@@ -29,10 +29,9 @@ public class Renderer {
 
     public static final int ScreenWidth = 800;
     public static final int ScreenHeight = 600;
-    public static boolean RenderQuadtree = false;
-
     private static final Font menuFont = Font.font("Arial", 18);
     private static final Font galaxyFont = Font.font("Arial", 14);
+    public static boolean RenderQuadtree = false;
     private final Galaxy galaxy;
     private final Stage stage;
     private final Canvas canvas;

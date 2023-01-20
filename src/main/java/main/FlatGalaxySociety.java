@@ -14,6 +14,10 @@ public class FlatGalaxySociety extends Application {
     public static boolean isPaused = false;
     public static int deltaMultiplier = 10;
 
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) {
         try {
@@ -54,9 +58,5 @@ public class FlatGalaxySociety extends Application {
         } catch (FileReaderException | GalaxyParserException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

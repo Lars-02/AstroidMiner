@@ -1,7 +1,7 @@
 package states.behaviourrules;
 
-import models.Color;
 import models.Asteroid;
+import models.Color;
 import models.Entity;
 import models.Galaxy;
 

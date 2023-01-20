@@ -8,20 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Entity implements Serializable {
+    private final List<Entity> collidingEntities = new ArrayList<>();
+    private final List<BehaviourRule> behaviourRules = new ArrayList<>();
+    public Vector2d position;
+    public Color color;
+    public Vector2d velocity;
+    public int radius;
     Entity(double x, double y, double velocityX, double velocityY, int radius, Color color) {
         this.position = new Vector2d(x, y);
         this.velocity = new Vector2d(velocityX, velocityY);
         this.radius = radius;
         this.color = color;
     }
-
-    public Vector2d position;
-    public Color color;
-
-    public Vector2d velocity;
-    public int radius;
-    private final List<Entity> collidingEntities = new ArrayList<>();
-    private final List<BehaviourRule> behaviourRules = new ArrayList<>();
 
     public void translate(long delta) {
         position = position.add(velocity.mul((double) delta / 1000));

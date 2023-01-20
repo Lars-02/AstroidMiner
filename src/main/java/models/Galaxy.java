@@ -6,7 +6,6 @@ import memento.History;
 import memento.Memento;
 import memento.Restorable;
 import states.collosionchecks.CollisionChecker;
-import states.collosionchecks.NaiveCollisionChecker;
 import states.collosionchecks.QuadCollisionChecker;
 
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import java.util.Map;
 public class Galaxy implements Restorable<GalaxyState> {
     private final History<Galaxy, GalaxyState> history = new History<>();
     public CollisionChecker collisionChecker = new QuadCollisionChecker(this);
-    private List<Entity> entities = new ArrayList<>();
     public Map<Command, KeyCode> commandKeyMap = new HashMap<>(Map.ofEntries(
             Map.entry(new SpeedUpCommand(this), KeyCode.EQUALS),
             Map.entry(new SlowDownCommand(this), KeyCode.MINUS),
@@ -31,6 +29,7 @@ public class Galaxy implements Restorable<GalaxyState> {
             Map.entry(new RemoveAsteroidCommand(this), KeyCode.R),
             Map.entry(new TogglePauseCommand(this), KeyCode.SPACE)
     ));
+    private List<Entity> entities = new ArrayList<>();
 
     public void addEntity(Entity entity) {
         entities.add(entity);

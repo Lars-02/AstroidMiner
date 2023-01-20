@@ -5,12 +5,12 @@ import models.Entity;
 import models.Galaxy;
 
 public class BlinkBehaviourRule extends BehaviourRule {
+    private final Color initialColor;
+
     public BlinkBehaviourRule(Entity entity) {
         super(entity);
         initialColor = entity.color;
     }
-
-    private final Color initialColor;
 
     @Override
     public void onCollisionEntry(Galaxy galaxy) {

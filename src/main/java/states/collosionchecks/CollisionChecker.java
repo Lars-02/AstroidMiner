@@ -4,9 +4,8 @@ import models.Galaxy;
 
 public abstract class CollisionChecker {
 
-    protected final Galaxy galaxy;
-
     public final String name;
+    protected final Galaxy galaxy;
 
     CollisionChecker(String name, Galaxy galaxy) {
         this.name = name;

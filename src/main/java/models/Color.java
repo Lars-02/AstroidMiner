@@ -3,6 +3,8 @@ package models;
 import java.io.Serializable;
 
 public class Color implements Serializable {
+    public static final Color BLACK = new Color(javafx.scene.paint.Color.BLACK);
+    public static final Color WHITE = new Color(javafx.scene.paint.Color.WHITE);
     private final double red;
     private final double green;
     private final double blue;
@@ -33,7 +35,4 @@ public class Color implements Serializable {
     public javafx.scene.paint.Color getFXColor() {
         return new javafx.scene.paint.Color(red, green, blue, alpha);
     }
-
-    public static final Color BLACK = new Color(javafx.scene.paint.Color.BLACK);
-    public static final Color WHITE = new Color(javafx.scene.paint.Color.WHITE);
 }

@@ -3,8 +3,6 @@ package factories.filereader;
 import exceptions.filereader.FileReaderException;
 
 public interface FileReader {
-    String readFile(String path) throws FileReaderException;
-
     static FileReader getFileReader(String fileLocation) {
         if (fileLocation.startsWith("http"))
             return new RemoteFileReader();
@@ -22,4 +20,6 @@ public interface FileReader {
                 .substring(0, cutoffLength)
                 .substring(fileLocation.lastIndexOf('.') + 1);
     }
+
+    String readFile(String path) throws FileReaderException;
 }

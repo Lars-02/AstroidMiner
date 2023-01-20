@@ -1,6 +1,5 @@
 package commands;
 
-import main.FlatGalaxySociety;
 import models.Asteroid;
 import models.Galaxy;
 

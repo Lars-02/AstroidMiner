@@ -4,11 +4,11 @@ import models.Entity;
 import models.Galaxy;
 
 public class BounceBehaviourRule extends BehaviourRule {
+    private int bounces = 0;
+
     public BounceBehaviourRule(Entity entity) {
         super(entity);
     }
-
-    private int bounces = 0;
 
     @Override
     public void onCollisionEntry(Galaxy galaxy) {
