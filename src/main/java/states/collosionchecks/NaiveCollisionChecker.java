@@ -3,6 +3,8 @@ package states.collosionchecks;
 import models.Entity;
 import models.Galaxy;
 
+import java.util.List;
+
 public class NaiveCollisionChecker extends CollisionChecker {
 
     public NaiveCollisionChecker(Galaxy galaxy) {

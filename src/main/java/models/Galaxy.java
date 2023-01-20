@@ -16,10 +16,7 @@ import java.util.Map;
 public class Galaxy implements Restorable<GalaxyState> {
     private final History<Galaxy, GalaxyState> history = new History<>();
     public CollisionChecker collisionChecker = new NaiveCollisionChecker(this);
-    private List<Entity> entities = new ArrayList<>();
-    private List<Entity> removeEntityList = new ArrayList<>();
-    private List<Entity> addEntityList = new ArrayList<>();
-
+    public List<Entity> entities = new ArrayList<>();
     public Map<Command, KeyCode> commandKeyMap = new HashMap<>(Map.of(
             new SpeedUpCommand(this), KeyCode.EQUALS,
             new SlowDownCommand(this), KeyCode.MINUS,
@@ -32,15 +29,17 @@ public class Galaxy implements Restorable<GalaxyState> {
     ));
 
     public void addEntity(Entity entity) {
-        addEntityList.add(entity);
+        entities.add(entity);
     }
 
     public void removeEntity(Entity entity) {
-        removeEntityList.add(entity);
+        if (entity instanceof Planet planet)
+            planet.removeConnections();
+        entities.remove(entity);
     }
 
     public List<Entity> getEntities() {
-        return entities;
+        return List.copyOf(entities);
     }
 
     public void tick(long delta) {
@@ -50,18 +49,6 @@ public class Galaxy implements Restorable<GalaxyState> {
         }
 
         collisionChecker.checkCollisions();
-
-        // Add all new entities
-        entities.addAll(addEntityList);
-        addEntityList.clear();
-
-        // Remove all entities
-        for (Entity entity : removeEntityList) {
-            if (entity instanceof Planet planet)
-                planet.removeConnections();
-        }
-        entities.removeAll(removeEntityList);
-        removeEntityList.clear();
     }
 
     public void undo() {
@@ -77,12 +64,10 @@ public class Galaxy implements Restorable<GalaxyState> {
     }
 
     public GalaxyState serializableState() {
-        return new GalaxyState(entities, addEntityList, removeEntityList);
+        return new GalaxyState(entities);
     }
 
     public void restore(GalaxyState state) {
         entities = state.entities();
-        addEntityList = state.addEntityList();
-        removeEntityList = state.removeEntityList();
     }
 }
