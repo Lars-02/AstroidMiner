@@ -7,15 +7,16 @@ import java.util.*;
 public class DijkstraAlgorithm extends PathfindingAlgorithm {
 
     @Override
-    protected List<Planet> getPath(List<Planet> nodes, Planet source, Planet target) {
+    protected Path getPath(List<Planet> nodes, Planet source, Planet target) {
         if (source == null || target == null) {
             throw new IllegalArgumentException("Source and target nodes cannot be null");
         }
         if (source == target) {
-            return new ArrayList<>();
+            return new Path(new ArrayList<>(), new ArrayList<>());
         }
         Map<Planet, Double> distance = new HashMap<>();
         Map<Planet, Planet> parent = new HashMap<>();
+        List<Planet> visited = new ArrayList<>();
         PriorityQueue<Planet> queue = new PriorityQueue<>(new PlanetComparator(distance));
         for (Planet node : nodes) {
             distance.put(node, Double.POSITIVE_INFINITY);
@@ -25,8 +26,9 @@ public class DijkstraAlgorithm extends PathfindingAlgorithm {
         parent.put(source, null);
         while (!queue.isEmpty()) {
             Planet current = queue.poll();
+            visited.add(current);
             if (current == target) {
-                return getPathFrom(current, parent);
+                return new Path(getPathFrom(current, parent), visited);
             }
             for (Planet neighbour : current.getNeighbours()) {
                 double newDistance = distance.get(current) + current.position.dist(neighbour.position);
