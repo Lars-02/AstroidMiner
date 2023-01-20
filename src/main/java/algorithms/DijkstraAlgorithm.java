@@ -7,7 +7,7 @@ import java.util.*;
 public class DijkstraAlgorithm extends PathfindingAlgorithm {
 
     @Override
-    protected List<Planet> getPath(List<Planet> nodes, Planet source, Planet target, boolean ignoreWeights) {
+    protected List<Planet> getPath(List<Planet> nodes, Planet source, Planet target) {
         if (source == null || target == null) {
             throw new IllegalArgumentException("Source and target nodes cannot be null");
         }
