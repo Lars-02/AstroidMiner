@@ -3,6 +3,8 @@ package ui.scenerenderers;
 import exceptions.filereader.FileReaderException;
 import exceptions.galaxyparser.GalaxyParserException;
 import factories.GalaxyFactory;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -45,7 +47,7 @@ public class GalaxyLoaderRenderer extends SceneRenderer {
         var submit = new Button("Submit");
         submit.setFont(font);
 
-        submit.setOnAction(event -> {
+        EventHandler<ActionEvent> onSubmit = event -> {
             try {
                 game.galaxy = GalaxyFactory.fromFile(galaxyFilePath.getText());
 
@@ -53,7 +55,10 @@ public class GalaxyLoaderRenderer extends SceneRenderer {
             } catch (FileReaderException | GalaxyParserException e) {
                 throw new RuntimeException(e);
             }
-        });
+        };
+
+        submit.setOnAction(onSubmit);
+        galaxyFilePath.setOnAction(onSubmit);
 
         vBox.getChildren().addAll(title, label, galaxyFilePath, submit);
     }
