@@ -52,6 +52,8 @@ public class GameRenderer extends SceneRenderer {
                 Map.entry(KeyCode.LEFT, new PreviousBookmarkCommand(game)),
                 Map.entry(KeyCode.RIGHT, new NextBookmarkCommand(game)),
                 Map.entry(KeyCode.C, new SwitchCollosionModeCommand(game)),
+                Map.entry(KeyCode.F, new SwitchPathFindingAlgorithmCommand(game)),
+                Map.entry(KeyCode.X, new RenderPathCommand(game, this)),
                 Map.entry(KeyCode.A, new AddAsteroidCommand(game)),
                 Map.entry(KeyCode.R, new RemoveAsteroidCommand(game)),
                 Map.entry(KeyCode.SPACE, new TogglePauseCommand(game)),

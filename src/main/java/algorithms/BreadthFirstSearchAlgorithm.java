@@ -6,6 +6,10 @@ import java.util.*;
 
 public class BreadthFirstSearchAlgorithm extends PathfindingAlgorithm {
 
+    public BreadthFirstSearchAlgorithm() {
+        super("BFS");
+    }
+
     @Override
     protected Path getPath(List<Planet> nodes, Planet source, Planet target) {
         if (source == null || target == null) {
@@ -28,7 +32,7 @@ public class BreadthFirstSearchAlgorithm extends PathfindingAlgorithm {
                     queue.add(neighbour);
                 }
                 if (neighbour == target) {
-                    return new Path(getPathFrom(current, parent), visited);
+                    return new Path(getPathFrom(current, parent, target), visited);
                 }
             }
         }

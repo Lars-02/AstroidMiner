@@ -11,6 +11,10 @@ public class Vector2d implements Serializable {
         this.y = y;
     }
 
+    public Vector2d middle(Vector2d other) {
+        return add(other.sub(this).div(2));
+    }
+
     public double dist(Vector2d other) {
         return Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2));
     }
@@ -25,5 +29,9 @@ public class Vector2d implements Serializable {
 
     public Vector2d add(Vector2d other) {
         return new Vector2d(x + other.x, y + other.y);
+    }
+
+    public Vector2d sub(Vector2d other) {
+        return new Vector2d(x - other.x, y - other.y);
     }
 }

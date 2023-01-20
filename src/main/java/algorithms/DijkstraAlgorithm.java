@@ -6,6 +6,10 @@ import java.util.*;
 
 public class DijkstraAlgorithm extends PathfindingAlgorithm {
 
+    public DijkstraAlgorithm() {
+        super("Dijkstra");
+    }
+
     @Override
     protected Path getPath(List<Planet> nodes, Planet source, Planet target) {
         if (source == null || target == null) {
@@ -28,7 +32,7 @@ public class DijkstraAlgorithm extends PathfindingAlgorithm {
             Planet current = queue.poll();
             visited.add(current);
             if (current == target) {
-                return new Path(getPathFrom(current, parent), visited);
+                return new Path(getPathFrom(current, parent, target), visited);
             }
             for (Planet neighbour : current.getNeighbours()) {
                 double newDistance = distance.get(current) + current.position.dist(neighbour.position);

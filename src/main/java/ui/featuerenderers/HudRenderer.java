@@ -4,7 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import models.Galaxy;
-import models.Planet;
 
 import static main.FlatGalaxySociety.deltaMultiplier;
 
@@ -19,8 +18,9 @@ public class HudRenderer implements FeatureRenderer {
     public void render(GraphicsContext gc) {
         gc.setTextAlign(TextAlignment.LEFT);
         gc.setFill(Color.BLACK);
-        gc.fillText("Multiplier: " + deltaMultiplier, 20, 20);
-        gc.fillText("Collision Mode: " + galaxy.collisionChecker.name, 20, 40);
-        gc.fillText("Entities: " + galaxy.numberOfEntities(), 20, 60);
+        gc.fillText("Multiplier: " + deltaMultiplier, 10, 20);
+        gc.fillText("Collision Mode: " + galaxy.collisionChecker.name, 10, 40);
+        gc.fillText("Pathfinder Mode: " + galaxy.pathfindingAlgorithm.name, 10, 60);
+        gc.fillText("Entities: " + galaxy.numberOfEntities(), 10, 80);
     }
 }

@@ -1,5 +1,8 @@
 package models;
 
+import algorithms.BreadthFirstSearchAlgorithm;
+import algorithms.PathfindingAlgorithm;
+import javafx.util.Pair;
 import memento.History;
 import memento.Memento;
 import memento.Restorable;
@@ -12,6 +15,7 @@ import java.util.List;
 public class Galaxy implements Restorable<GalaxyState> {
     private final History<Galaxy, GalaxyState> history = new History<>();
     public CollisionChecker collisionChecker = new QuadCollisionChecker(this);
+    public PathfindingAlgorithm pathfindingAlgorithm = new BreadthFirstSearchAlgorithm();
     private List<Entity> entities = new ArrayList<>();
 
     public boolean isPaused = false;
@@ -30,6 +34,10 @@ public class Galaxy implements Restorable<GalaxyState> {
         return List.copyOf(entities);
     }
 
+    public List<Planet> getPlanets() {
+        return entities.stream().filter(entity -> entity instanceof Planet).map(planet -> (Planet) planet).toList();
+    }
+
     public void tick(long delta) {
         if (isPaused)
             return;
@@ -39,6 +47,10 @@ public class Galaxy implements Restorable<GalaxyState> {
         }
 
         collisionChecker.checkCollisions();
+
+        var biggestPlanets = getTwoBiggestPlanets();
+
+        pathfindingAlgorithm.setPath(getPlanets(), biggestPlanets.getKey(), biggestPlanets.getValue());
     }
 
     public void undo() {
@@ -64,5 +76,21 @@ public class Galaxy implements Restorable<GalaxyState> {
 
     public int numberOfEntities() {
         return entities.size();
+    }
+
+    public Pair<Planet, Planet> getTwoBiggestPlanets() {
+        Pair<Planet, Planet> planetPair = new Pair<>(null, null);
+        for (var entity : entities) {
+            if (entity instanceof Planet planet) {
+                if (planetPair.getKey() == null || planetPair.getKey().radius < planet.radius) {
+                    planetPair = new Pair<>(planet, planetPair.getValue());
+                    continue;
+                }
+                if (planetPair.getValue() == null || planetPair.getValue().radius < planet.radius) {
+                    planetPair = new Pair<>(planetPair.getKey(), planet);
+                }
+            }
+        }
+        return planetPair;
     }
 }
