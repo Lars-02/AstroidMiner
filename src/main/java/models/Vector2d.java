@@ -34,4 +34,13 @@ public class Vector2d implements Serializable {
     public Vector2d sub(Vector2d other) {
         return new Vector2d(x - other.x, y - other.y);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Vector2d other) {
+            return x == other.x && y == other.y;
+        }
+
+        return false;
+    }
 }
