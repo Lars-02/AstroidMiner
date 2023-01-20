@@ -10,13 +10,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import main.FlatGalaxySociety ;
+import main.FlatGalaxySociety;
 import models.Entity;
 import models.Planet;
-import quadtree.Quad;
-import states.collosionchecks.QuadCollisionChecker;
-import ui.model.Config;
 import ui.Renderer;
+import ui.featuerenderers.FeatureRenderer;
+import ui.model.Config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,14 +29,13 @@ import static ui.model.Config.SCREEN_WIDTH;
 public class GameRenderer extends SceneRenderer {
     private static final Font font = Font.font("Arial", 14);
 
-    public boolean shouldRenderQuadtree = false;
+    public final List<FeatureRenderer> featureRenderers = new ArrayList<>();
 
     private final UpdateRunnable updateRunnable;
     private final Scene scene;
     private final Canvas canvas;
     private final GraphicsContext gc;
     private final FlatGalaxySociety game;
-
     private final Map<KeyCode, Command> keybindings;
 
     public GameRenderer(Renderer renderer, FlatGalaxySociety game) {
@@ -103,13 +101,7 @@ public class GameRenderer extends SceneRenderer {
         // Clear screen;
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        // Render quad
-        if (shouldRenderQuadtree && game.galaxy.collisionChecker instanceof QuadCollisionChecker quadCollision) {
-            gc.setStroke(Color.GREEN);
-            renderQuadtree(quadCollision.quadtree);
-            gc.setStroke(Color.BLACK);
-            gc.setLineWidth(1);
-        }
+        featureRenderers.forEach(fr -> fr.render(gc));
 
         // Draw planet connections
         for (Entity entity : entities) {
@@ -141,18 +133,6 @@ public class GameRenderer extends SceneRenderer {
         gc.fillText("Multiplier: " + deltaMultiplier, 20, 20);
         gc.fillText("Collision Mode: " + game.galaxy.collisionChecker.name, 20, 40);
         gc.fillText("Entities: " + game.galaxy.numberOfEntities(), 20, 60);
-    }
-
-    private void renderQuadtree(Quad quadtree) {
-        if (quadtree == null)
-            return;
-
-        gc.setLineWidth((double) 8 / (quadtree.getDepth() + 1));
-        gc.strokeRect(quadtree.topLeftBoundary.x, quadtree.topLeftBoundary.y, quadtree.bottomRightBoundary.x - quadtree.topLeftBoundary.x, quadtree.bottomRightBoundary.y - quadtree.topLeftBoundary.y);
-        renderQuadtree(quadtree.getTopLeft());
-        renderQuadtree(quadtree.getTopRight());
-        renderQuadtree(quadtree.getBottomLeft());
-        renderQuadtree(quadtree.getBottomRight());
     }
 
     private class UpdateRunnable implements Runnable {
