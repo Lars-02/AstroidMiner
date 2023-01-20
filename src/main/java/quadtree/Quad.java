@@ -103,4 +103,8 @@ public class Quad {
     public Quad getBottomRight() {
         return bottomRight;
     }
+
+    public List<Entity> getEntities() {
+        return List.copyOf(entities);
+    }
 }
