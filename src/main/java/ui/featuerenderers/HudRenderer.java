@@ -23,5 +23,6 @@ public class HudRenderer implements FeatureRenderer {
         gc.fillText("Pathfinder Mode: " + galaxy.pathfindingAlgorithm.name, 10, 60);
         gc.fillText("Snapshots: " + galaxy.historyStep() + "/" + galaxy.historySize(), 10, 80);
         gc.fillText("Entities: " + galaxy.numberOfEntities(), 10, 100);
+        gc.setTextAlign(TextAlignment.CENTER);
     }
 }
