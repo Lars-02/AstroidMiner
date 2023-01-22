@@ -3,7 +3,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
-group 'dev.maik.schoolassignments'
+group 'lars.maik'
 version '1.0-SNAPSHOT'
 
 mainClassName = 'main.FlatGalaxySociety'
@@ -13,6 +13,8 @@ repositories {
 }
 
 dependencies {
+    implementation group: 'org.openjfx', name: 'javafx-controls', version: '11.0.2'
+    implementation group: 'org.openjfx', name: 'javafx-fxml', version: '11.0.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
@@ -22,6 +24,18 @@ test {
 }
 
 javafx {
-    version = "19"
-    modules = [ 'javafx.controls' ]
+    version = "11.0.2"
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'main.FlatGalaxySociety'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = 'EXCLUDE'
 }
